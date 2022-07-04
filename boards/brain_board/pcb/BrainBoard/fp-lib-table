@@ -1,0 +1,4 @@
+(fp_lib_table
+  (lib (name Connector_AMASS)(type KiCad)(uri "Z:/Workspace/Robot Boards/BrainBoard/docs/pcb/lib/Connector_AMASS")(options "")(descr ""))
+  (lib (name BrainBoard)(type KiCad)(uri ${KIPRJMOD}/BrainBoard.pretty)(options "")(descr ""))
+)

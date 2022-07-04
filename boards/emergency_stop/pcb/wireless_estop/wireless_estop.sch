@@ -1,0 +1,581 @@
+EESchema Schematic File Version 4
+EELAYER 30 0
+EELAYER END
+$Descr A4 11693 8268
+encoding utf-8
+Sheet 1 1
+Title ""
+Date ""
+Rev ""
+Comp ""
+Comment1 ""
+Comment2 ""
+Comment3 ""
+Comment4 ""
+$EndDescr
+Text Notes 5275 650  0    50   ~ 0
+TODO: atmega32u4
+Text Notes 9500 3825 0    50   ~ 0
+TODO: battery guel gauge
+Text Notes 9600 2825 0    50   ~ 0
+TODO: battery charging
+Text Notes 8100 5000 0    50   ~ 0
+TODO: usb-c
+Text Notes 10100 5025 0    50   ~ 0
+TODO: 3.3v
+Text Notes 1250 4325 0    50   ~ 0
+TODO: ICSP
+Text Notes 7950 2700 0    50   ~ 0
+TODO: RF
+Text Notes 2500 6250 0    50   ~ 0
+TODO: status LED
+Text Notes 4525 6400 0    50   ~ 0
+TODO: tx rx pwr
+Text Notes 9625 3350 0    50   ~ 0
+TODO: power switch
+Text Notes 1075 1725 0    50   ~ 0
+TODO: estop with indicator
+Text Notes 9675 2950 0    50   ~ 0
+TODO: charge indicator
+Text Notes 1075 2700 0    50   ~ 0
+TODO:  mode switch
+$Comp
+L DX07S016JA1R1500:DX07S016JA1R1500 J?
+U 1 1 602CAF34
+P 8225 5775
+F 0 "J?" H 8225 6342 50  0000 C CNN
+F 1 "DX07S016JA1R1500" H 8225 6251 50  0000 C CNN
+F 2 "JAE_DX07S016JA1R1500" H 8225 5775 50  0001 L BNN
+F 3 "" H 8225 5775 50  0001 L BNN
+F 4 "1" H 8225 5775 50  0001 L BNN "PARTREV"
+F 5 "3.31 mm" H 8225 5775 50  0001 L BNN "MAXIMUM_PACKAGE_HEIGHT"
+F 6 "JAE Industry Ltd." H 8225 5775 50  0001 L BNN "MANUFACTURER"
+F 7 "Manufacturer Recommendations" H 8225 5775 50  0001 L BNN "STANDARD"
+	1    8225 5775
+	1    0    0    -1  
+$EndComp
+$Comp
+L Regulator_Linear:LM1117-3.3 U?
+U 1 1 602CC184
+P 10025 5475
+F 0 "U?" H 10025 5717 50  0000 C CNN
+F 1 "LM1117-3.3" H 10025 5626 50  0000 C CNN
+F 2 "" H 10025 5475 50  0001 C CNN
+F 3 "http://www.ti.com/lit/ds/symlink/lm1117.pdf" H 10025 5475 50  0001 C CNN
+	1    10025 5475
+	1    0    0    -1  
+$EndComp
+$Comp
+L MCU_Microchip_ATmega:ATmega32U4RC-MU U?
+U 1 1 602CCA2A
+P 5650 2800
+F 0 "U?" H 5650 911 50  0000 C CNN
+F 1 "ATmega32U4RC-MU" H 5650 820 50  0000 C CNN
+F 2 "Package_DFN_QFN:QFN-44-1EP_7x7mm_P0.5mm_EP5.2x5.2mm" H 5650 2800 50  0001 C CIN
+F 3 "http://ww1.microchip.com/downloads/en/DeviceDoc/Atmel-7766-8-bit-AVR-ATmega16U4-32U4_Datasheet.pdf" H 5650 2800 50  0001 C CNN
+	1    5650 2800
+	1    0    0    -1  
+$EndComp
+$Comp
+L Connector_Generic:Conn_02x03_Odd_Even J?
+U 1 1 602CE527
+P 1400 4750
+F 0 "J?" H 1450 5067 50  0000 C CNN
+F 1 "ICSP" H 1450 4976 50  0000 C CNN
+F 2 "" H 1400 4750 50  0001 C CNN
+F 3 "~" H 1400 4750 50  0001 C CNN
+	1    1400 4750
+	1    0    0    -1  
+$EndComp
+$Comp
+L LED:WS2812 D?
+U 1 1 602CEE3C
+P 2825 6750
+F 0 "D?" H 3169 6796 50  0000 L CNN
+F 1 "WS2812" H 3169 6705 50  0000 L CNN
+F 2 "LED_SMD:LED_WS2812_PLCC6_5.0x5.0mm_P1.6mm" H 2875 6450 50  0001 L TNN
+F 3 "https://cdn-shop.adafruit.com/datasheets/WS2812.pdf" H 2925 6375 50  0001 L TNN
+	1    2825 6750
+	1    0    0    -1  
+$EndComp
+$Comp
+L Device:LED_Small D?
+U 1 1 602CF704
+P 4650 6625
+F 0 "D?" H 4650 6860 50  0000 C CNN
+F 1 "PWR" H 4650 6769 50  0000 C CNN
+F 2 "" V 4650 6625 50  0001 C CNN
+F 3 "~" V 4650 6625 50  0001 C CNN
+	1    4650 6625
+	-1   0    0    -1  
+$EndComp
+$Comp
+L Device:LED_Small D?
+U 1 1 602CFEAA
+P 4650 6800
+F 0 "D?" H 4650 7035 50  0000 C CNN
+F 1 "TX" H 4650 6944 50  0000 C CNN
+F 2 "" V 4650 6800 50  0001 C CNN
+F 3 "~" V 4650 6800 50  0001 C CNN
+	1    4650 6800
+	-1   0    0    -1  
+$EndComp
+$Comp
+L Device:LED_Small D?
+U 1 1 602D02CC
+P 4650 7000
+F 0 "D?" H 4650 7235 50  0000 C CNN
+F 1 "RX" H 4650 7144 50  0000 C CNN
+F 2 "" V 4650 7000 50  0001 C CNN
+F 3 "~" V 4650 7000 50  0001 C CNN
+	1    4650 7000
+	-1   0    0    -1  
+$EndComp
+$Comp
+L power:GND #PWR?
+U 1 1 602D12F9
+P 1750 4900
+F 0 "#PWR?" H 1750 4650 50  0001 C CNN
+F 1 "GND" H 1755 4727 50  0000 C CNN
+F 2 "" H 1750 4900 50  0001 C CNN
+F 3 "" H 1750 4900 50  0001 C CNN
+	1    1750 4900
+	1    0    0    -1  
+$EndComp
+$Comp
+L power:GND #PWR?
+U 1 1 602D214A
+P 2825 7050
+F 0 "#PWR?" H 2825 6800 50  0001 C CNN
+F 1 "GND" H 2830 6877 50  0000 C CNN
+F 2 "" H 2825 7050 50  0001 C CNN
+F 3 "" H 2825 7050 50  0001 C CNN
+	1    2825 7050
+	1    0    0    -1  
+$EndComp
+$Comp
+L power:GND #PWR?
+U 1 1 602D274C
+P 4800 7050
+F 0 "#PWR?" H 4800 6800 50  0001 C CNN
+F 1 "GND" H 4805 6877 50  0000 C CNN
+F 2 "" H 4800 7050 50  0001 C CNN
+F 3 "" H 4800 7050 50  0001 C CNN
+	1    4800 7050
+	1    0    0    -1  
+$EndComp
+$Comp
+L power:GND #PWR?
+U 1 1 602D2D9F
+P 8875 6225
+F 0 "#PWR?" H 8875 5975 50  0001 C CNN
+F 1 "GND" H 8880 6052 50  0000 C CNN
+F 2 "" H 8875 6225 50  0001 C CNN
+F 3 "" H 8875 6225 50  0001 C CNN
+	1    8875 6225
+	1    0    0    -1  
+$EndComp
+$Comp
+L power:GND #PWR?
+U 1 1 602D3052
+P 7525 6325
+F 0 "#PWR?" H 7525 6075 50  0001 C CNN
+F 1 "GND" H 7530 6152 50  0000 C CNN
+F 2 "" H 7525 6325 50  0001 C CNN
+F 3 "" H 7525 6325 50  0001 C CNN
+	1    7525 6325
+	1    0    0    -1  
+$EndComp
+$Comp
+L power:GND #PWR?
+U 1 1 602D344D
+P 10025 5775
+F 0 "#PWR?" H 10025 5525 50  0001 C CNN
+F 1 "GND" H 10030 5602 50  0000 C CNN
+F 2 "" H 10025 5775 50  0001 C CNN
+F 3 "" H 10025 5775 50  0001 C CNN
+	1    10025 5775
+	1    0    0    -1  
+$EndComp
+$Comp
+L power:GND #PWR?
+U 1 1 602D3E96
+P 5600 4600
+F 0 "#PWR?" H 5600 4350 50  0001 C CNN
+F 1 "GND" H 5605 4427 50  0000 C CNN
+F 2 "" H 5600 4600 50  0001 C CNN
+F 3 "" H 5600 4600 50  0001 C CNN
+	1    5600 4600
+	1    0    0    -1  
+$EndComp
+$Comp
+L Device:R_Small R?
+U 1 1 602D556B
+P 4450 6625
+F 0 "R?" H 4509 6671 50  0000 L CNN
+F 1 "R_Small" H 4509 6580 50  0000 L CNN
+F 2 "" H 4450 6625 50  0001 C CNN
+F 3 "~" H 4450 6625 50  0001 C CNN
+	1    4450 6625
+	0    -1   -1   0   
+$EndComp
+$Comp
+L Device:R_Small R?
+U 1 1 602D6137
+P 4450 6800
+F 0 "R?" H 4509 6846 50  0000 L CNN
+F 1 "R_Small" H 4509 6755 50  0000 L CNN
+F 2 "" H 4450 6800 50  0001 C CNN
+F 3 "~" H 4450 6800 50  0001 C CNN
+	1    4450 6800
+	0    -1   -1   0   
+$EndComp
+$Comp
+L Device:R_Small R?
+U 1 1 602D627D
+P 4450 7000
+F 0 "R?" H 4509 7046 50  0000 L CNN
+F 1 "R_Small" H 4509 6955 50  0000 L CNN
+F 2 "" H 4450 7000 50  0001 C CNN
+F 3 "~" H 4450 7000 50  0001 C CNN
+	1    4450 7000
+	0    -1   -1   0   
+$EndComp
+$Comp
+L Device:R_Small R?
+U 1 1 602D6902
+P 7475 6225
+F 0 "R?" H 7534 6271 50  0000 L CNN
+F 1 "R_Small" H 7534 6180 50  0000 L CNN
+F 2 "" H 7475 6225 50  0001 C CNN
+F 3 "~" H 7475 6225 50  0001 C CNN
+	1    7475 6225
+	-1   0    0    -1  
+$EndComp
+$Comp
+L Device:R_Small R?
+U 1 1 602D6A01
+P 7575 6225
+F 0 "R?" H 7634 6271 50  0000 L CNN
+F 1 "R_Small" H 7634 6180 50  0000 L CNN
+F 2 "" H 7575 6225 50  0001 C CNN
+F 3 "~" H 7575 6225 50  0001 C CNN
+	1    7575 6225
+	1    0    0    -1  
+$EndComp
+$Comp
+L Device:R_Small R?
+U 1 1 602D6E13
+P 6350 3400
+F 0 "R?" H 6409 3446 50  0000 L CNN
+F 1 "R_Small" H 6409 3355 50  0000 L CNN
+F 2 "" H 6350 3400 50  0001 C CNN
+F 3 "~" H 6350 3400 50  0001 C CNN
+	1    6350 3400
+	0    -1   -1   0   
+$EndComp
+$Comp
+L Device:R_Small R?
+U 1 1 602D774B
+P 4750 2300
+F 0 "R?" V 4946 2300 50  0000 C CNN
+F 1 "22" V 4855 2300 50  0000 C CNN
+F 2 "" H 4750 2300 50  0001 C CNN
+F 3 "~" H 4750 2300 50  0001 C CNN
+	1    4750 2300
+	0    -1   -1   0   
+$EndComp
+$Comp
+L Device:R_Small R?
+U 1 1 602D7923
+P 4750 2400
+F 0 "R?" V 4946 2400 50  0000 C CNN
+F 1 "22" V 4855 2400 50  0000 C CNN
+F 2 "" H 4750 2400 50  0001 C CNN
+F 3 "~" H 4750 2400 50  0001 C CNN
+	1    4750 2400
+	0    -1   1    0   
+$EndComp
+$Comp
+L Switch:SW_SPST_LED SW?
+U 1 1 602D7DFE
+P 1575 2225
+F 0 "SW?" H 1575 2560 50  0000 C CNN
+F 1 "SW_SPST_LED" H 1575 2469 50  0000 C CNN
+F 2 "" H 1575 2525 50  0001 C CNN
+F 3 "~" H 1575 2525 50  0001 C CNN
+	1    1575 2225
+	1    0    0    -1  
+$EndComp
+$Comp
+L power:+3.3V #PWR?
+U 1 1 602D9DFC
+P 1750 4600
+F 0 "#PWR?" H 1750 4450 50  0001 C CNN
+F 1 "+3.3V" H 1765 4773 50  0000 C CNN
+F 2 "" H 1750 4600 50  0001 C CNN
+F 3 "" H 1750 4600 50  0001 C CNN
+	1    1750 4600
+	1    0    0    -1  
+$EndComp
+$Comp
+L power:+3.3V #PWR?
+U 1 1 602DA9EA
+P 2775 6450
+F 0 "#PWR?" H 2775 6300 50  0001 C CNN
+F 1 "+3.3V" H 2790 6623 50  0000 C CNN
+F 2 "" H 2775 6450 50  0001 C CNN
+F 3 "" H 2775 6450 50  0001 C CNN
+	1    2775 6450
+	1    0    0    -1  
+$EndComp
+$Comp
+L power:+3.3V #PWR?
+U 1 1 602DB163
+P 5650 825
+F 0 "#PWR?" H 5650 675 50  0001 C CNN
+F 1 "+3.3V" H 5665 998 50  0000 C CNN
+F 2 "" H 5650 825 50  0001 C CNN
+F 3 "" H 5650 825 50  0001 C CNN
+	1    5650 825 
+	1    0    0    -1  
+$EndComp
+$Comp
+L power:+3.3V #PWR?
+U 1 1 602DBB17
+P 10375 5425
+F 0 "#PWR?" H 10375 5275 50  0001 C CNN
+F 1 "+3.3V" H 10390 5598 50  0000 C CNN
+F 2 "" H 10375 5425 50  0001 C CNN
+F 3 "" H 10375 5425 50  0001 C CNN
+	1    10375 5425
+	1    0    0    -1  
+$EndComp
+$Comp
+L power:+3.3V #PWR?
+U 1 1 602DC594
+P 4250 6525
+F 0 "#PWR?" H 4250 6375 50  0001 C CNN
+F 1 "+3.3V" H 4265 6698 50  0000 C CNN
+F 2 "" H 4250 6525 50  0001 C CNN
+F 3 "" H 4250 6525 50  0001 C CNN
+	1    4250 6525
+	1    0    0    -1  
+$EndComp
+$Comp
+L power:VBUS #PWR?
+U 1 1 602DC981
+P 9075 5425
+F 0 "#PWR?" H 9075 5275 50  0001 C CNN
+F 1 "VBUS" H 9090 5598 50  0000 C CNN
+F 2 "" H 9075 5425 50  0001 C CNN
+F 3 "" H 9075 5425 50  0001 C CNN
+	1    9075 5425
+	1    0    0    -1  
+$EndComp
+$Comp
+L power:VBUS #PWR?
+U 1 1 602DD40E
+P 5050 2100
+F 0 "#PWR?" H 5050 1950 50  0001 C CNN
+F 1 "VBUS" H 5065 2273 50  0000 C CNN
+F 2 "" H 5050 2100 50  0001 C CNN
+F 3 "" H 5050 2100 50  0001 C CNN
+	1    5050 2100
+	0    -1   -1   0   
+$EndComp
+$Comp
+L Device:Polyfuse_Small F?
+U 1 1 602DDE31
+P 8925 5475
+F 0 "F?" V 8720 5475 50  0000 C CNN
+F 1 "250mA" V 8811 5475 50  0000 C CNN
+F 2 "" H 8975 5275 50  0001 L CNN
+F 3 "~" H 8925 5475 50  0001 C CNN
+	1    8925 5475
+	0    1    1    0   
+$EndComp
+$Comp
+L Device:C_Small C?
+U 1 1 602E28E5
+P 9675 5625
+F 0 "C?" H 9767 5671 50  0000 L CNN
+F 1 "C_Small" H 9767 5580 50  0000 L CNN
+F 2 "" H 9675 5625 50  0001 C CNN
+F 3 "~" H 9675 5625 50  0001 C CNN
+	1    9675 5625
+	1    0    0    -1  
+$EndComp
+$Comp
+L Device:C_Small C?
+U 1 1 602E356A
+P 10375 5625
+F 0 "C?" H 10467 5671 50  0000 L CNN
+F 1 "C_Small" H 10467 5580 50  0000 L CNN
+F 2 "" H 10375 5625 50  0001 C CNN
+F 3 "~" H 10375 5625 50  0001 C CNN
+	1    10375 5625
+	1    0    0    -1  
+$EndComp
+$Comp
+L Device:C_Small C?
+U 1 1 602E42C3
+P 4950 2600
+F 0 "C?" V 5179 2600 50  0000 C CNN
+F 1 "1uF" V 5088 2600 50  0000 C CNN
+F 2 "" H 4950 2600 50  0001 C CNN
+F 3 "~" H 4950 2600 50  0001 C CNN
+	1    4950 2600
+	0    -1   1    0   
+$EndComp
+$Comp
+L Device:C_Small C?
+U 1 1 602E46F6
+P 3700 1475
+F 0 "C?" H 3792 1521 50  0000 L CNN
+F 1 "C_Small" H 3792 1430 50  0000 L CNN
+F 2 "" H 3700 1475 50  0001 C CNN
+F 3 "~" H 3700 1475 50  0001 C CNN
+	1    3700 1475
+	1    0    0    -1  
+$EndComp
+$Comp
+L Device:C_Small C?
+U 1 1 602E481E
+P 3625 1775
+F 0 "C?" H 3717 1821 50  0000 L CNN
+F 1 "C_Small" H 3717 1730 50  0000 L CNN
+F 2 "" H 3625 1775 50  0001 C CNN
+F 3 "~" H 3625 1775 50  0001 C CNN
+	1    3625 1775
+	1    0    0    -1  
+$EndComp
+$Comp
+L Device:C_Small C?
+U 1 1 602E4B66
+P 6000 875
+F 0 "C?" H 6092 921 50  0000 L CNN
+F 1 "C_Small" H 6092 830 50  0000 L CNN
+F 2 "" H 6000 875 50  0001 C CNN
+F 3 "~" H 6000 875 50  0001 C CNN
+	1    6000 875 
+	1    0    0    -1  
+$EndComp
+$Comp
+L Device:CP_Small C?
+U 1 1 602E5202
+P 6300 875
+F 0 "C?" H 6388 921 50  0000 L CNN
+F 1 "CP_Small" H 6388 830 50  0000 L CNN
+F 2 "" H 6300 875 50  0001 C CNN
+F 3 "~" H 6300 875 50  0001 C CNN
+	1    6300 875 
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	1700 4850 1750 4850
+Wire Wire Line
+	1750 4850 1750 4900
+Wire Wire Line
+	1700 4650 1750 4650
+Wire Wire Line
+	1750 4650 1750 4600
+Wire Wire Line
+	2725 6450 2775 6450
+Wire Wire Line
+	2775 6450 2825 6450
+Connection ~ 2775 6450
+Wire Wire Line
+	4250 6525 4250 6625
+Wire Wire Line
+	4250 6625 4350 6625
+Wire Wire Line
+	4750 6625 4800 6625
+Wire Wire Line
+	4800 6625 4800 6800
+Wire Wire Line
+	4750 7000 4800 7000
+Connection ~ 4800 7000
+Wire Wire Line
+	4800 7000 4800 7050
+Wire Wire Line
+	4750 6800 4800 6800
+Connection ~ 4800 6800
+Wire Wire Line
+	4800 6800 4800 7000
+Wire Wire Line
+	4350 6800 4100 6800
+Wire Wire Line
+	4350 7000 4100 7000
+Text Label 4125 6800 0    50   ~ 0
+TXLED
+Text Label 4125 7000 0    50   ~ 0
+RXLED
+Wire Wire Line
+	7475 6325 7525 6325
+Wire Wire Line
+	7525 6325 7575 6325
+Connection ~ 7525 6325
+Wire Wire Line
+	7625 6075 7575 6075
+Wire Wire Line
+	7575 6075 7575 6125
+Wire Wire Line
+	7475 6125 7475 5575
+Wire Wire Line
+	7475 5575 7625 5575
+Wire Wire Line
+	7625 5775 7275 5775
+Wire Wire Line
+	7625 5875 7275 5875
+Text Label 7275 5775 0    50   ~ 0
+D-
+Text Label 7275 5875 0    50   ~ 0
+D+
+Wire Wire Line
+	8825 6075 8875 6075
+Wire Wire Line
+	8875 6075 8875 6175
+Wire Wire Line
+	8825 6175 8875 6175
+Connection ~ 8875 6175
+Wire Wire Line
+	8875 6175 8875 6225
+Wire Wire Line
+	9025 5475 9075 5475
+Wire Wire Line
+	9075 5475 9075 5425
+Wire Wire Line
+	9725 5475 9675 5475
+Wire Wire Line
+	9675 5475 9675 5525
+Wire Wire Line
+	9675 5725 9675 5775
+Wire Wire Line
+	9675 5775 10025 5775
+Connection ~ 10025 5775
+Wire Wire Line
+	10325 5475 10375 5475
+Wire Wire Line
+	10375 5475 10375 5525
+Wire Wire Line
+	10375 5725 10375 5775
+Wire Wire Line
+	10375 5775 10025 5775
+Wire Wire Line
+	10375 5425 10375 5475
+Connection ~ 10375 5475
+Wire Wire Line
+	5550 4600 5600 4600
+Wire Wire Line
+	5600 4600 5650 4600
+Connection ~ 5600 4600
+Wire Wire Line
+	4650 2300 4475 2300
+Wire Wire Line
+	4650 2400 4475 2400
+Text Label 4475 2300 0    50   ~ 0
+D+
+Text Label 4475 2400 0    50   ~ 0
+D-
+$EndSCHEMATC

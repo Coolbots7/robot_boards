@@ -1,0 +1,137 @@
+EESchema Schematic File Version 4
+EELAYER 30 0
+EELAYER END
+$Descr A4 11693 8268
+encoding utf-8
+Sheet 1 1
+Title ""
+Date ""
+Rev ""
+Comp ""
+Comment1 ""
+Comment2 ""
+Comment3 ""
+Comment4 ""
+$EndDescr
+$Comp
+L Connector_Generic:Conn_01x02 J?
+U 1 1 611B67AD
+P 1150 1150
+F 0 "J?" H 1068 825 50  0000 C CNN
+F 1 "VIN" H 1068 916 50  0000 C CNN
+F 2 "" H 1150 1150 50  0001 C CNN
+F 3 "~" H 1150 1150 50  0001 C CNN
+	1    1150 1150
+	-1   0    0    1   
+$EndComp
+$Comp
+L Connector_Generic:Conn_01x02 J?
+U 1 1 611B8F03
+P 10375 1200
+F 0 "J?" H 10293 875 50  0000 C CNN
+F 1 "COMPRESSOR" H 10293 966 50  0000 C CNN
+F 2 "" H 10375 1200 50  0001 C CNN
+F 3 "~" H 10375 1200 50  0001 C CNN
+	1    10375 1200
+	1    0    0    1   
+$EndComp
+$Comp
+L Relay:HF3-03 K?
+U 1 1 611B928C
+P 9450 1550
+F 0 "K?" H 9880 1596 50  0000 L CNN
+F 1 "HF3-03" H 9880 1505 50  0000 L CNN
+F 2 "Relay_SMD:Relay_SPDT_AXICOM_HF3Series_75ohms_Pitch1.27mm" H 10580 1520 50  0001 C CNN
+F 3 "http://hiqsdr.com/images/3/3e/Axicom-HF3.pdf" H 9450 1550 50  0001 C CNN
+	1    9450 1550
+	1    0    0    -1  
+$EndComp
+$Comp
+L Device:LED_Small D?
+U 1 1 611BBB29
+P 8450 1675
+F 0 "D?" V 8496 1605 50  0000 R CNN
+F 1 "LED_Small" V 8405 1605 50  0000 R CNN
+F 2 "" V 8450 1675 50  0001 C CNN
+F 3 "~" V 8450 1675 50  0001 C CNN
+	1    8450 1675
+	0    -1   -1   0   
+$EndComp
+$Comp
+L Device:R_Small R?
+U 1 1 611BC828
+P 8425 1375
+F 0 "R?" H 8484 1421 50  0000 L CNN
+F 1 "R_Small" H 8484 1330 50  0000 L CNN
+F 2 "" H 8425 1375 50  0001 C CNN
+F 3 "~" H 8425 1375 50  0001 C CNN
+	1    8425 1375
+	1    0    0    -1  
+$EndComp
+$Comp
+L Device:D_Small D?
+U 1 1 611BCD2D
+P 8850 1550
+F 0 "D?" V 8804 1620 50  0000 L CNN
+F 1 "D_Small" V 8895 1620 50  0000 L CNN
+F 2 "" V 8850 1550 50  0001 C CNN
+F 3 "~" V 8850 1550 50  0001 C CNN
+	1    8850 1550
+	0    1    1    0   
+$EndComp
+$Comp
+L Device:Q_NPN_BCE Q?
+U 1 1 611BE4F9
+P 8775 2075
+F 0 "Q?" H 8966 2121 50  0000 L CNN
+F 1 "Q_NPN_BCE" H 8966 2030 50  0000 L CNN
+F 2 "" H 8975 2175 50  0001 C CNN
+F 3 "~" H 8775 2075 50  0001 C CNN
+	1    8775 2075
+	1    0    0    -1  
+$EndComp
+$Comp
+L power:+3.3V #PWR?
+U 1 1 611BF8F7
+P 9200 1125
+F 0 "#PWR?" H 9200 975 50  0001 C CNN
+F 1 "+3.3V" H 9215 1298 50  0000 C CNN
+F 2 "" H 9200 1125 50  0001 C CNN
+F 3 "" H 9200 1125 50  0001 C CNN
+	1    9200 1125
+	1    0    0    -1  
+$EndComp
+$Comp
+L power:GND #PWR?
+U 1 1 611C0CB9
+P 8875 2350
+F 0 "#PWR?" H 8875 2100 50  0001 C CNN
+F 1 "GND" H 8880 2177 50  0000 C CNN
+F 2 "" H 8875 2350 50  0001 C CNN
+F 3 "" H 8875 2350 50  0001 C CNN
+	1    8875 2350
+	1    0    0    -1  
+$EndComp
+$Comp
+L Sensor_Pressure:40PC250G U?
+U 1 1 611C3367
+P 9950 3950
+F 0 "U?" H 9520 3996 50  0000 R CNN
+F 1 "40PC250G" H 9520 3905 50  0000 R CNN
+F 2 "" H 10050 3950 50  0001 C CNN
+F 3 "http://www.honeywellscportal.com//index.php?ci_id=138832" H 10050 3950 50  0001 C CNN
+	1    9950 3950
+	-1   0    0    -1  
+$EndComp
+$Comp
+L Connector_Generic:Conn_01x03 J?
+U 1 1 611C685E
+P 10300 4825
+F 0 "J?" H 10218 4500 50  0000 C CNN
+F 1 "PRESSURE" H 10218 4591 50  0000 C CNN
+F 2 "" H 10300 4825 50  0001 C CNN
+F 3 "~" H 10300 4825 50  0001 C CNN
+	1    10300 4825
+	1    0    0    1   
+$EndComp
+$EndSCHEMATC

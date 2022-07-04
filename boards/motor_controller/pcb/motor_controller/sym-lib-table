@@ -1,0 +1,8 @@
+(sym_lib_table
+  (lib (name DX07S016JA1R1500)(type Legacy)(uri "Z:/Workspace/Robot Boards/MotorController/docs/pcb/lib/DX07S016JA1R1500/DX07S016JA1R1500.lib")(options "")(descr ""))
+  (lib (name DRV8432DKDR)(type Legacy)(uri "Z:/Workspace/Robot Boards/MotorController/docs/pcb/lib/DRV8432DKDR/DRV8432DKDR.lib")(options "")(descr ""))
+  (lib (name L6207PD)(type Legacy)(uri "Z:/Workspace/Robot Boards/MotorController/docs/pcb/lib/L6207PD/L6207PD.lib")(options "")(descr ""))
+  (lib (name L298P)(type Legacy)(uri "Z:/Workspace/Robot Boards/MotorController/docs/pcb/lib/L298P/L298P.lib")(options "")(descr ""))
+  (lib (name motor_controller-rescue)(type Legacy)(uri ${KIPRJMOD}/motor_controller-rescue.lib)(options "")(descr ""))
+  (lib (name RobotBoard)(type Legacy)(uri "Z:/Workspace/Robot Boards/MotorController/docs/pcb/lib/RobotBoard.lib")(options "")(descr ""))
+)

@@ -1,0 +1,6 @@
+(sym_lib_table
+  (lib (name DX07S016JA1R1500)(type Legacy)(uri "Z:/Workspace/Robot Boards/BMS/docs/pcb/lib/DX07S016JA1R1500/DX07S016JA1R1500.lib")(options "")(descr ""))
+  (lib (name BMS-rescue)(type Legacy)(uri ${KIPRJMOD}/BMS-rescue.lib)(options "")(descr ""))
+  (lib (name ACS37800KMACTR-090B3-I2C)(type Legacy)(uri "Z:/Workspace/Robot Boards/BMS/docs/pcb/lib/ACS37800KMACTR-090B3-I2C/2021-06-26_18-49-10.lib")(options "")(descr ""))
+  (lib (name RobotBoard)(type Legacy)(uri "Z:/Workspace/Robot Boards/BMS/docs/pcb/lib/RobotBoard/RobotBoard.lib")(options "")(descr ""))
+)

@@ -1,0 +1,8 @@
+(fp_lib_table
+  (lib (name Connector_AMASS)(type KiCad)(uri "Z:/Workspace/Robot Boards/MotorController/docs/pcb/lib/Connector_AMASS")(options "")(descr ""))
+  (lib (name DX07S016JA1R1500)(type KiCad)(uri "Z:/Workspace/Robot Boards/MotorController/docs/pcb/lib/DX07S016JA1R1500")(options "")(descr ""))
+  (lib (name DRV8432DKDR)(type KiCad)(uri "Z:/Workspace/Robot Boards/MotorController/docs/pcb/lib/DRV8432DKDR")(options "")(descr ""))
+  (lib (name motor_controller)(type KiCad)(uri ${KIPRJMOD}/motor_controller.pretty)(options "")(descr ""))
+  (lib (name L6207PD)(type KiCad)(uri "Z:/Workspace/Robot Boards/MotorController/docs/pcb/lib/L6207PD")(options "")(descr ""))
+  (lib (name L298P)(type KiCad)(uri "Z:/Workspace/Robot Boards/MotorController/docs/pcb/lib/L298P")(options "")(descr ""))
+)

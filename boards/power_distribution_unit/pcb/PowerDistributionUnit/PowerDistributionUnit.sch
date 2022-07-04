@@ -1,0 +1,198 @@
+EESchema Schematic File Version 4
+EELAYER 30 0
+EELAYER END
+$Descr A4 11693 8268
+encoding utf-8
+Sheet 1 1
+Title ""
+Date ""
+Rev ""
+Comp ""
+Comment1 ""
+Comment2 ""
+Comment3 ""
+Comment4 ""
+$EndDescr
+$Comp
+L Connector_Generic:Conn_01x02 J1
+U 1 1 60205527
+P 4350 3175
+F 0 "J1" H 4450 3100 50  0000 C CNN
+F 1 "VIN" H 4475 3175 50  0000 C CNN
+F 2 "Connector_AMASS:AMASS_XT30PW-M_1x02_P2.50mm_Horizontal" H 4350 3175 50  0001 C CNN
+F 3 "~" H 4350 3175 50  0001 C CNN
+	1    4350 3175
+	-1   0    0    1   
+$EndComp
+$Comp
+L Connector_Generic:Conn_01x02 J3
+U 1 1 6020650D
+P 4850 3475
+F 0 "J3" V 4950 3375 50  0000 L CNN
+F 1 "VOUT" V 5025 3325 50  0000 L CNN
+F 2 "Connector_AMASS:AMASS_XT30PW-F_1x02_P2.50mm_Horizontal" H 4850 3475 50  0001 C CNN
+F 3 "~" H 4850 3475 50  0001 C CNN
+	1    4850 3475
+	0    1    1    0   
+$EndComp
+$Comp
+L Connector_Generic:Conn_01x02 J4
+U 1 1 60206A82
+P 5250 3475
+F 0 "J4" V 5350 3375 50  0000 L CNN
+F 1 "VOUT" V 5425 3350 50  0000 L CNN
+F 2 "Connector_AMASS:AMASS_XT30PW-F_1x02_P2.50mm_Horizontal" H 5250 3475 50  0001 C CNN
+F 3 "~" H 5250 3475 50  0001 C CNN
+	1    5250 3475
+	0    1    1    0   
+$EndComp
+$Comp
+L Connector_Generic:Conn_01x02 J5
+U 1 1 60206E08
+P 5650 3475
+F 0 "J5" V 5750 3375 50  0000 L CNN
+F 1 "VOUT" V 5825 3350 50  0000 L CNN
+F 2 "Connector_AMASS:AMASS_XT30PW-F_1x02_P2.50mm_Horizontal" H 5650 3475 50  0001 C CNN
+F 3 "~" H 5650 3475 50  0001 C CNN
+	1    5650 3475
+	0    1    1    0   
+$EndComp
+$Comp
+L Connector_Generic:Conn_01x02 J6
+U 1 1 6020721F
+P 6050 3475
+F 0 "J6" V 6150 3375 50  0000 L CNN
+F 1 "VOUT" V 6225 3350 50  0000 L CNN
+F 2 "Connector_AMASS:AMASS_XT30PW-F_1x02_P2.50mm_Horizontal" H 6050 3475 50  0001 C CNN
+F 3 "~" H 6050 3475 50  0001 C CNN
+	1    6050 3475
+	0    1    1    0   
+$EndComp
+$Comp
+L Connector_Generic:Conn_01x02 J2
+U 1 1 602078CA
+P 6450 3175
+F 0 "J2" H 6575 3075 50  0000 C CNN
+F 1 "VOUT" H 6625 3150 50  0000 C CNN
+F 2 "Connector_AMASS:AMASS_XT30PW-F_1x02_P2.50mm_Horizontal" H 6450 3175 50  0001 C CNN
+F 3 "~" H 6450 3175 50  0001 C CNN
+	1    6450 3175
+	1    0    0    1   
+$EndComp
+$Comp
+L power:GND #PWR0101
+U 1 1 6020FE5D
+P 4600 3175
+F 0 "#PWR0101" H 4600 2925 50  0001 C CNN
+F 1 "GND" H 4605 3002 50  0000 C CNN
+F 2 "" H 4600 3175 50  0001 C CNN
+F 3 "" H 4600 3175 50  0001 C CNN
+	1    4600 3175
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	4550 3175 4600 3175
+Wire Wire Line
+	4550 3075 4600 3075
+Wire Wire Line
+	6050 3275 6050 3175
+Connection ~ 6050 3175
+Wire Wire Line
+	6050 3175 6250 3175
+Wire Wire Line
+	5650 3275 5650 3175
+Connection ~ 5650 3175
+Wire Wire Line
+	5650 3175 6050 3175
+Wire Wire Line
+	5250 3275 5250 3175
+Connection ~ 5250 3175
+Wire Wire Line
+	5250 3175 5650 3175
+Wire Wire Line
+	4850 3275 4850 3175
+Connection ~ 4850 3175
+Wire Wire Line
+	4850 3175 5250 3175
+Connection ~ 4600 3175
+Wire Wire Line
+	4600 3175 4850 3175
+Wire Wire Line
+	4750 3275 4750 3075
+Connection ~ 4750 3075
+Wire Wire Line
+	4750 3075 5150 3075
+Wire Wire Line
+	5150 3275 5150 3075
+Connection ~ 5150 3075
+Wire Wire Line
+	5150 3075 5550 3075
+Wire Wire Line
+	5550 3275 5550 3075
+Connection ~ 5550 3075
+Wire Wire Line
+	5550 3075 5950 3075
+Wire Wire Line
+	5950 3275 5950 3075
+Connection ~ 5950 3075
+Wire Wire Line
+	5950 3075 6250 3075
+$Comp
+L power:VDD #PWR0102
+U 1 1 6021DA23
+P 4600 3075
+F 0 "#PWR0102" H 4600 2925 50  0001 C CNN
+F 1 "VDD" H 4615 3248 50  0000 C CNN
+F 2 "" H 4600 3075 50  0001 C CNN
+F 3 "" H 4600 3075 50  0001 C CNN
+	1    4600 3075
+	1    0    0    -1  
+$EndComp
+Connection ~ 4600 3075
+Wire Wire Line
+	4600 3075 4750 3075
+$Comp
+L Device:LED_Small D1
+U 1 1 602210E7
+P 7100 3350
+F 0 "D1" V 7146 3448 50  0000 L CNN
+F 1 "PWR" V 7055 3448 50  0000 L CNN
+F 2 "LED_SMD:LED_0603_1608Metric" V 7100 3350 50  0001 C CNN
+F 3 "~" V 7100 3350 50  0001 C CNN
+	1    7100 3350
+	0    1    -1   0   
+$EndComp
+$Comp
+L Device:R_Small R1
+U 1 1 60226399
+P 7100 3150
+F 0 "R1" H 7159 3196 50  0000 L CNN
+F 1 "1k" H 7159 3105 50  0000 L CNN
+F 2 "Resistor_SMD:R_0603_1608Metric" H 7100 3150 50  0001 C CNN
+F 3 "~" H 7100 3150 50  0001 C CNN
+	1    7100 3150
+	1    0    0    -1  
+$EndComp
+$Comp
+L power:GND #PWR0107
+U 1 1 602332E6
+P 7100 3450
+F 0 "#PWR0107" H 7100 3200 50  0001 C CNN
+F 1 "GND" H 7105 3277 50  0000 C CNN
+F 2 "" H 7100 3450 50  0001 C CNN
+F 3 "" H 7100 3450 50  0001 C CNN
+	1    7100 3450
+	1    0    0    -1  
+$EndComp
+$Comp
+L power:VDD #PWR?
+U 1 1 60DBF596
+P 7100 3050
+F 0 "#PWR?" H 7100 2900 50  0001 C CNN
+F 1 "VDD" H 7115 3223 50  0000 C CNN
+F 2 "" H 7100 3050 50  0001 C CNN
+F 3 "" H 7100 3050 50  0001 C CNN
+	1    7100 3050
+	1    0    0    -1  
+$EndComp
+$EndSCHEMATC

@@ -1,0 +1,5 @@
+(sym_lib_table
+  (lib (name TPS5405DR)(type Legacy)(uri "Z:/Workspace/Robot Boards/BrainBoard/docs/pcb/lib/TPS5405DR/TPS5405DR.lib")(options "")(descr ""))
+  (lib (name TPS5403DR)(type Legacy)(uri "Z:/Workspace/Robot Boards/BrainBoard/docs/pcb/lib/TPS5403DR/TPS5403DR.lib")(options "")(descr ""))
+  (lib (name RobotBoard)(type Legacy)(uri "Z:/Workspace/Robot Boards/BrainBoard/docs/pcb/lib/RobotBoard.lib")(options "")(descr ""))
+)

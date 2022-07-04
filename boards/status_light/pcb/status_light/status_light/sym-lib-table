@@ -1,0 +1,4 @@
+(sym_lib_table
+  (lib (name RobotBoard)(type Legacy)(uri "Z:/Workspace/Robot Boards/StatusLight/docs/pcb/status_light/lib/RobotBoard.lib")(options "")(descr ""))
+  (lib (name status_light-rescue)(type Legacy)(uri ${KIPRJMOD}/status_light-rescue.lib)(options "")(descr ""))
+)

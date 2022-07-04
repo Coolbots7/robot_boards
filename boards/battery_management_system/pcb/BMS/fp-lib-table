@@ -1,0 +1,7 @@
+(fp_lib_table
+  (lib (name Connector_AMASS)(type KiCad)(uri "Z:/Workspace/Robot Boards/BMS/docs/pcb/lib/Connector_AMASS")(options "")(descr ""))
+  (lib (name DX07S016JA1R1500)(type KiCad)(uri "Z:/Workspace/Robot Boards/BMS/docs/pcb/lib/DX07S016JA1R1500")(options "")(descr ""))
+  (lib (name XT60PW-M)(type KiCad)(uri "Z:/Workspace/Robot Boards/BMS/docs/pcb/lib/XT60PW-M")(options "")(descr ""))
+  (lib (name 355710)(type KiCad)(uri "Z:/Workspace/Robot Boards/BMS/docs/pcb/lib/355710")(options "")(descr ""))
+  (lib (name ACS37800KMACTR-090B3-I2C)(type KiCad)(uri "Z:/Workspace/Robot Boards/BMS/docs/pcb/lib/ACS37800KMACTR-090B3-I2C/footprints.pretty")(options "")(descr ""))
+)
