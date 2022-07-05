@@ -10,3 +10,5 @@ This project is fully open source and suggestions and contributions are welcome.
   - `main_board/` - Board for running operational code and commanding other
     boards. See the [README](./boards/main_board/README.md) for more
     information.
+  - `status_light/` - Board for indicating the operational state of the robot.
+    See the [README](./boards/status_light/README.md) for more information.
