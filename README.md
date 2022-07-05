@@ -10,6 +10,9 @@ This project is fully open source and suggestions and contributions are welcome.
   - `main_board/` - Board for running operational code and commanding other
     boards. See the [README](./boards/main_board/README.md) for more
     information.
+  - `motor_controller/` - Board for receiving movement commands and commanding a
+    motor driver. See the [README](./boards/motor_controller/README.md) for more
+    information.
   - `status_light/` - Board for indicating the operational state of the robot.
     See the [README](./boards/status_light/README.md) for more information.
 - `lib/` - Directory for custom libraries.

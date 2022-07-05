@@ -20,7 +20,7 @@ Dependencies are tracked in the `platformio.ini` file.
 
 ## Hardware
 
-The current board prototype uses COST breakout modules of the main components
+The current board prototype uses COTS breakout modules of the main components
 wired together on protoboard.
 
 ### Pin Usage
