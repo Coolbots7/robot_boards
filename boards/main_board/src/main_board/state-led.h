@@ -8,7 +8,7 @@
 // Minimum brightness of the LED
 #define MIN_BRIGHTNESS 10
 // Maximum brightness of the LED
-#define MAX_BRIGHTNESS 50
+#define MAX_BRIGHTNESS 30
 
 // How fast the LED should blink for the pulse effect
 #define PULSE_RATE 2 // Hz

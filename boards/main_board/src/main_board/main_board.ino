@@ -1,5 +1,8 @@
 #include <cmath>
 
+#include <Adafruit_SSD1306.h>
+
+#include "display.h"
 #include "logger.h"
 #include "state-led.h"
 #include "state-machine.h"
@@ -7,7 +10,7 @@
 // ====== ABOUT ======
 #define BOARD_NAME "Main Board"
 #define HARDWARE_VERSION "0.1.0"
-#define FIRMWARE_VERSION "0.3.0"
+#define FIRMWARE_VERSION "0.4.0"
 
 // ====== DEBUG ======
 #define ENABLE_LOGGING true
@@ -24,7 +27,54 @@
 // Hardware pin the addressable LEDs are attached to
 #define STATE_LED_PIN 32
 
+// ====== SOFTWARE I2C ======
+// Define the hardware SDA pin for the onboard peripheral Wire bus
+#define SOFTWARE_WIRE_SDA 25
+// Define the hardware SCL pin for the onboard peripheral Wire bus
+#define SOFTWARE_WIRE_SCL 27
+// Define the clock speed for the onboard peripheral Wire bus
+#define SOFTWARE_WIRE_FREQUENCY 100000
+
+// ====== Display ======
+// OLED display address
+#define DISPLAY_ADDRESS 0x3C
+// OLED display width, in pixels
+#define DISPLAY_WIDTH 128
+// OLED display height, in pixels
+#define DISPLAY_HEIGHT 32
+
+// ====== Wire Handler Functions ======
+// Handler for calling begin on the peripheral Wire bus
+void wireBegin()
+{
+    Wire1.begin();
+}
+
+// Handler for calling beginTransmission on the peripheral Wire bus
+void wireBeginTransmission(uint8_t addr)
+{
+    Wire1.beginTransmission(addr);
+}
+
+// Handler for calling endTransmission on the peripheral Wire bus
+void wireEndTransmission()
+{
+    Wire1.endTransmission();
+}
+
+// Handler for calling write on the peripheral Wire bus
+void wireWrite(uint8_t c)
+{
+    Wire1.write(c);
+}
+
 // ====== GLOBALS ======
+// SSD1306 display instance for the onboard display
+Adafruit_SSD1306 *screen;
+
+// Display instance for the board
+Display *display;
+
 // Logger instance for the board
 Logger *logger;
 
@@ -47,6 +97,28 @@ const uint32_t LOOP_TIME = round(1000 / RATE);
  */
 void stateUpdateHandler(StateMachine *s)
 {
+}
+
+/**
+ * @brief Update the display in the main loop
+ *
+ * @param display Display instance to update
+ */
+void displayHandler(Display *display)
+{
+    // Clear the display buffer
+    display->clear();
+
+    // Show the board state
+    display->leftJustify(display->getLineY(0), "S:" + StateMachine::getStateDescription(state->getCurrentState()).substring(0, 4));
+
+    // Show the clock time
+    char time_buffer[6];
+    sprintf(time_buffer, "T:%03d", millis() % 1000);
+    display->rightJustify(display->getLineY(0), String(time_buffer));
+
+    // Push buffer to display
+    display->display();
 }
 
 /**
@@ -85,8 +157,44 @@ void setup()
     state_led->init<STATE_LED_PIN>(NUM_LEDS);
     logger->info("State LED initialized");
 
+    // Initialize second Wire bus for onboard peripherals
+    logger->info("Initializing onboard peripheral Wire bus...");
+    Wire1.begin(SOFTWARE_WIRE_SDA, SOFTWARE_WIRE_SCL, SOFTWARE_WIRE_FREQUENCY);
+    logger->info("Wire bus initialized");
+
+    // Create the SSD1306 screen instance
+    logger->info("Initializing the Screen...");
+    screen = new Adafruit_SSD1306(DISPLAY_WIDTH, DISPLAY_HEIGHT, &Wire1);
+
+    // This is required because the SSD1306 library does not property use the provided I2C object
+    screen->onWireBegin(wireBegin);
+    screen->onWireBeginTransmission(wireBeginTransmission);
+    screen->onWireEndTransmission(wireEndTransmission);
+    screen->onWireWrite(wireWrite);
+
+    // Initialize the screen, halt if error
+    if (!screen->begin(SSD1306_SWITCHCAPVCC, DISPLAY_ADDRESS))
+    {
+        logger->warning("SSD1306 allocation failed");
+        state->transitionTo(FAULT);
+        state_led->update();
+
+        // Don't proceed, loop forever
+        for (;;)
+        {
+            ;
+        }
+    }
+    logger->info("Screen initialized");
+
+    // Initialize the Display
+    logger->info("Initializing the Display...");
+    display = new Display(screen, displayHandler);
+    logger->info("Display initialized");
+
     // Transition to the IDLE state and complete setup
     state->transitionTo(IDLE);
+    display->initializing("Complete", 1.0f);
     logger->info("Setup Complete!");
 }
 
@@ -105,5 +213,8 @@ void loop()
 
         // Update the State LED with the latest state and effect
         state_led->update();
+
+        // After updating the state, update the display
+        display->update();
     }
 }
