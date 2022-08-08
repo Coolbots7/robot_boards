@@ -4,13 +4,14 @@
 
 #include "display.h"
 #include "logger.h"
+#include "monitoring.h"
 #include "state-led.h"
 #include "state-machine.h"
 
 // ====== ABOUT ======
 #define BOARD_NAME "Main Board"
 #define HARDWARE_VERSION "0.1.0"
-#define FIRMWARE_VERSION "0.4.0"
+#define FIRMWARE_VERSION "0.5.0"
 
 // ====== DEBUG ======
 #define ENABLE_LOGGING true
@@ -19,7 +20,7 @@
 
 // ====== RATE ======
 // Maximum execution rate of the main loop
-#define RATE 30 // Hz
+#define RATE 40 // Hz
 
 // ====== State LED ======
 // Number of inline addressable LEDs attached to the board
@@ -78,6 +79,9 @@ Display *display;
 // Logger instance for the board
 Logger *logger;
 
+// Monitoring instance for the board
+Monitoring *monitoring;
+
 // State LED instance for the board
 StateLED *state_led;
 
@@ -117,6 +121,14 @@ void displayHandler(Display *display)
     sprintf(time_buffer, "T:%03d", millis() % 1000);
     display->rightJustify(display->getLineY(0), String(time_buffer));
 
+    // show monitoring information
+    char execution_time_buffer[8];
+    sprintf(execution_time_buffer, "E:%.0fms", monitoring->getAverageExecutionTime());
+    display->rightJustify(display->getLineY(1), String(execution_time_buffer));
+    char cycle_time_buffer[14];
+    sprintf(cycle_time_buffer, "C:%.0fms(%.0fhz)", monitoring->getAverageCycleTime(), monitoring->getAverageCycleRate());
+    display->rightJustify(display->getLineY(2), String(cycle_time_buffer));
+
     // Push buffer to display
     display->display();
 }
@@ -148,6 +160,9 @@ void setup()
     }
 
     logger->info("Setup Beginning...");
+
+    // Create the Monitoring instance
+    monitoring = new Monitoring();
 
     // Create state machine and initialize
     state = new StateMachine(stateUpdateHandler, logger);
@@ -208,6 +223,9 @@ void loop()
     {
         last_loop_time = millis();
 
+        // Update the monitoring instance at the start of the main code execution
+        monitoring->start();
+
         // After updating all inputs, update the state machine
         state->update();
 
@@ -216,5 +234,8 @@ void loop()
 
         // After updating the state, update the display
         display->update();
+
+        // Update the monitoring instance at the end of the main code execution
+        monitoring->end();
     }
 }
