@@ -1,1 +1,3 @@
-.vscode/
+# Ignore VSCode
+.vscode/*
+!.vscode/extensions.json

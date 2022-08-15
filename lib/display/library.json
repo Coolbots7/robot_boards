@@ -1,0 +1,21 @@
+{
+    "name": "RobotBoards_display",
+    "version": "0.1.0",
+    "description": "Library for displaying board information on OLED screens",
+    "keywords": "arduino,OLED,screen,display,debug",
+    "repository": {
+        "type": "git",
+        "url": "git@github.com:Coolbots7/robot_boards.git"
+    },
+    "authors": [
+        {
+            "name": "coolbots7"
+        }
+    ],
+    "homepage": "https://github.com/Coolbots7/robot_boards",
+    "dependencies": {
+        "adafruit/Adafruit_SSD1306": "^2.5.7"
+    },
+    "frameworks": "arduino",
+    "platforms": ["espressif32"]
+}
