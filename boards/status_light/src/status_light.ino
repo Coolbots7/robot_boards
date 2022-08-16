@@ -1,12 +1,13 @@
 #include <cmath>
 
 #include "logger.h"
+#include "state-led.h"
 #include "state-machine.h"
 
 // ====== ABOUT ======
 #define BOARD_NAME "Status Light"
 #define HARDWARE_VERSION "0.1.0"
-#define FIRMWARE_VERSION "0.2.0"
+#define FIRMWARE_VERSION "0.3.0"
 
 // ====== DEBUG ======
 #define ENABLE_LOGGING true
@@ -17,9 +18,18 @@
 // Maximum execution rate of the main loop
 #define RATE 40 // Hz
 
+// ====== State LED ======
+// Number of inline addressable LEDs attached to the board
+#define NUM_LEDS 4
+// Hardware pin the addressable LEDs are attached to
+#define STATE_LED_PIN 10
+
 // ====== GLOBALS ======
 // Logger instance for the board
 Logger *logger;
+
+// State LED instance for the board
+StateLED *state_led;
 
 // State Machine instance for the board
 StateMachine *state;
@@ -72,6 +82,11 @@ void setup()
   state = new StateMachine(stateUpdateHandler, logger);
   logger->info("State Machine initialized");
 
+  logger->info("Initializing the State LED...");
+  state_led = new StateLED(state);
+  state_led->init<STATE_LED_PIN>(NUM_LEDS);
+  logger->info("State LED initialized");
+
   // Transition to the IDLE state and complete setup
   state->transitionTo(IDLE);
   logger->info("Setup Complete!");
@@ -89,5 +104,8 @@ void loop()
 
     // After updating all inputs, update the state machine
     state->update();
+
+    // Update the State LED with the latest state and effect
+    state_led->update();
   }
 }
