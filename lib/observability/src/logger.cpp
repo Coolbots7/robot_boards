@@ -2,7 +2,11 @@
 
 #include "./logger.h"
 
+#if defined(__AVR_ATmega32U4__) || defined(__AVR_ATmega16U4__)
+Logger::Logger(Serial_ *serial, bool enabled)
+#else
 Logger::Logger(HardwareSerial *serial, bool enabled)
+#endif
 {
     this->serial = serial;
     this->enabled = enabled;
