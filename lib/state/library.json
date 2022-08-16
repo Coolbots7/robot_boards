@@ -1,0 +1,21 @@
+{
+    "name": "RobotBoards_state",
+    "version": "0.1.0",
+    "description": "Library for managing and working with the state of a board",
+    "keywords": "arduino,state,led,debug",
+    "repository": {
+        "type": "git",
+        "url": "git@github.com:Coolbots7/robot_boards.git"
+    },
+    "authors": [
+        {
+            "name": "coolbots7"
+        }
+    ],
+    "homepage": "https://github.com/Coolbots7/robot_boards",
+    "dependencies": {
+        "adafruit/Adafruit_NeoPixel": "^1.10.5"
+    },
+    "frameworks": "arduino",
+    "platforms": ["espressif32"]
+}

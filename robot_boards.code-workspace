@@ -1,0 +1,15 @@
+{
+    "folders": [
+        {
+            "path": "."
+        },
+        {
+            "path": "boards/main_board"
+        }
+    ],
+    "settings": {
+        "files.associations": {
+            "serstream": "cpp"
+        }
+    }
+}

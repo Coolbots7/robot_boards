@@ -1,5 +1,7 @@
 #include <cmath>
 
+#include "Wire.h"
+
 #include <Adafruit_SSD1306.h>
 
 #include "display.h"
@@ -34,7 +36,7 @@
 // Define the hardware SCL pin for the onboard peripheral Wire bus
 #define SOFTWARE_WIRE_SCL 27
 // Define the clock speed for the onboard peripheral Wire bus
-#define SOFTWARE_WIRE_FREQUENCY 100000
+#define SOFTWARE_WIRE_FREQUENCY 1000000UL
 
 // ====== Display ======
 // OLED display address
@@ -43,31 +45,6 @@
 #define DISPLAY_WIDTH 128
 // OLED display height, in pixels
 #define DISPLAY_HEIGHT 32
-
-// ====== Wire Handler Functions ======
-// Handler for calling begin on the peripheral Wire bus
-void wireBegin()
-{
-    Wire1.begin();
-}
-
-// Handler for calling beginTransmission on the peripheral Wire bus
-void wireBeginTransmission(uint8_t addr)
-{
-    Wire1.beginTransmission(addr);
-}
-
-// Handler for calling endTransmission on the peripheral Wire bus
-void wireEndTransmission()
-{
-    Wire1.endTransmission();
-}
-
-// Handler for calling write on the peripheral Wire bus
-void wireWrite(uint8_t c)
-{
-    Wire1.write(c);
-}
 
 // ====== GLOBALS ======
 // SSD1306 display instance for the onboard display
@@ -180,12 +157,6 @@ void setup()
     // Create the SSD1306 screen instance
     logger->info("Initializing the Screen...");
     screen = new Adafruit_SSD1306(DISPLAY_WIDTH, DISPLAY_HEIGHT, &Wire1);
-
-    // This is required because the SSD1306 library does not property use the provided I2C object
-    screen->onWireBegin(wireBegin);
-    screen->onWireBeginTransmission(wireBeginTransmission);
-    screen->onWireEndTransmission(wireEndTransmission);
-    screen->onWireWrite(wireWrite);
 
     // Initialize the screen, halt if error
     if (!screen->begin(SSD1306_SWITCHCAPVCC, DISPLAY_ADDRESS))
