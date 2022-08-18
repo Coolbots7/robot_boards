@@ -5,6 +5,9 @@
         },
         {
             "path": "boards/main_board"
+        },
+        {
+            "path": "boards/status_light"
         }
     ],
     "settings": {

@@ -12,7 +12,11 @@ class Logger
 {
 private:
   // Serial device to use for logging
+#if defined(__AVR_ATmega32U4__) || defined(__AVR_ATmega16U4__)
+  Serial_ *serial;
+#else
   HardwareSerial *serial;
+#endif
 
   // Enabled state of the logger
   bool enabled;
@@ -30,7 +34,11 @@ public:
    *
    * @param enabled Optional initial enabled state
    */
+#if defined(__AVR_ATmega32U4__) || defined(__AVR_ATmega16U4__)
+  Logger(Serial_ *serial, bool enabled = true);
+#else
   Logger(HardwareSerial *serial, bool enabled = true);
+#endif
 
   /**
    * @brief Enable or disable all logging
