@@ -4,10 +4,16 @@
             "path": "."
         },
         {
+            "name": "main_board",
             "path": "boards/main_board"
         },
         {
+            "name": "status_light",
             "path": "boards/status_light"
+        },
+        {
+            "name": "motor_controller",
+            "path": "boards/motor_controller"
         }
     ],
     "settings": {
