@@ -1,13 +1,14 @@
 #include <cmath>
 
 #include "logger.h"
+#include "monitoring.h"
 #include "state-led.h"
 #include "state-machine.h"
 
 // ====== ABOUT ======
 #define BOARD_NAME "Motor Controller"
 #define HARDWARE_VERSION "0.1.0"
-#define FIRMWARE_VERSION "0.3.0"
+#define FIRMWARE_VERSION "0.4.0"
 
 // ====== DEBUG ======
 #define ENABLE_LOGGING true
@@ -27,6 +28,9 @@
 // ====== GLOBALS ======
 // Logger instance for the board
 Logger *logger;
+
+// Monitoring instance for the board
+Monitoring *monitoring;
 
 // State LED instance for the board
 StateLED *state_led;
@@ -65,6 +69,11 @@ void setup()
 
     logger->info("Setup Beginning...");
 
+    logger->info("Initializing Monitoring...");
+    // Create the Monitoring instance
+    monitoring = new Monitoring();
+    logger->info("Monitoring initialized");
+
     logger->info("Initializing the State Machine...");
     // Create state machine and initialize
     state = new StateMachine(stateUpdateHandler, logger);
@@ -90,10 +99,16 @@ void loop()
     {
         last_loop_time = millis();
 
+        // Update the monitoring instance at the start of the main code execution
+        monitoring->start();
+
         // After updating all inputs, update the state machine
         state->update();
 
         // Update the State LED with the latest state and effect
         state_led->update();
+
+        // Update the monitoring instance at the end of the main code execution
+        monitoring->end();
     }
 }
