@@ -13,10 +13,6 @@
 // How fast the LED should blink for the pulse effect
 #define PULSE_RATE 2 // Hz
 
-// Used to track the pulse fade direction
-#define FADE_UP false
-#define FADE_DOWN true
-
 // Define colors used by the LED
 #define COLOR_RED 0xFF0000
 #define COLOR_BLUE 0x0000FF
@@ -38,10 +34,6 @@ private:
 
     // Should the LED have the pulse effect?
     bool pulse;
-    // Track which direction the LED is pulsing
-    bool pulse_latch;
-    // Track the remaining pulse fade time
-    uint8_t previous_remaining_fade_time;
 
     // Define State colors
     uint32_t COLOR_FAULT = COLOR_RED;
@@ -49,6 +41,21 @@ private:
     uint32_t COLOR_IDLE = COLOR_GREEN;
     uint32_t COLOR_HALT = COLOR_ORANGE;
     uint32_t COLOR_STARTING = COLOR_PURPLE;
+
+    /**
+     * @brief Map a float value from one range to another
+     *
+     * @param val Input value to map
+     * @param from_low Low end of the range to map from
+     * @param from_high High end of the range to map from
+     * @param to_low Low end of the range to map to
+     * @param to_high High end of the range to map to
+     * @return float Mapped output value
+     */
+    static float fmap(float val, float from_low, float from_high, float to_low, float to_high)
+    {
+        return (val - from_low) * ((to_high - to_low) / (from_high - from_low)) + to_low;
+    }
 
     /**
      * @brief Set the brightness of the LED
