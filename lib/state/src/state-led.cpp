@@ -10,8 +10,6 @@ StateLED::StateLED(StateMachine *state)
     this->state = state;
 
     this->pulse = false;
-    this->pulse_latch = FADE_DOWN;
-    this->previous_remaining_fade_time = 0;
 }
 
 void StateLED::setBrightness(uint8_t brightness)
@@ -71,33 +69,21 @@ void StateLED::update()
     // Update the current fade level if the pulse effect is enabled
     if (this->pulse)
     {
-        // Calculate the time to fade the led in one direction
-        uint32_t fade_time = round(1000 / PULSE_RATE);
-        uint32_t fade_direction_time = round(fade_time / 2);
+        // Calculate the time to fade the led based on the pulse rate
+        uint32_t fade_time = 1000UL / PULSE_RATE;
 
-        // Get the remainder of the current time divided by the fade time
-        uint32_t now = millis();
-        uint32_t remaining_fade_direction_time = now % fade_direction_time;
+        // Get the remaining fade time of the current cycle
+        uint32_t remaining_fade_time = millis() % fade_time;
 
-        // If the remaining fade time has crossed 0 then flip the fade direction
-        uint8_t diff = floor(now / fade_direction_time) - this->previous_remaining_fade_time;
-        if ((diff % 2) == 1)
-        {
-            this->pulse_latch = !this->pulse_latch;
-            this->previous_remaining_fade_time = floor(now / fade_direction_time);
-        }
+        // Get the position in the wave based on the remaining time
+        float current_cycle_position = (((float)fade_time - (float)remaining_fade_time) / (float)fade_time) * (2.0 * M_PI);
 
-        // Calculate and set the current brightness using the remaining fade time
-        uint8_t current_brightness_level = map(remaining_fade_direction_time, 0, fade_direction_time, MIN_BRIGHTNESS, MAX_BRIGHTNESS);
-        if (this->pulse_latch == FADE_DOWN)
-        {
-            // Invert brightness when fading down
-            this->setBrightness(MAX_BRIGHTNESS - current_brightness_level);
-        }
-        else
-        {
-            this->setBrightness(current_brightness_level);
-        }
+        // Get the sin of the current cycle position
+        float brightness_multiplier = sin(current_cycle_position);
+
+        // Map the offset sin output value to the LED brightness range, and set brightness
+        uint8_t current_brightness_level = StateLED::fmap(brightness_multiplier, -1, 1, MIN_BRIGHTNESS, MAX_BRIGHTNESS);
+        this->setBrightness(current_brightness_level);
     }
     else
     {
