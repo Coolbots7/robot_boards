@@ -78,6 +78,7 @@ const uint32_t LOOP_TIME = round(1000 / RATE);
  */
 void stateUpdateHandler(StateMachine *s)
 {
+    s->transitionTo(State::RUNNING);
 }
 
 /**

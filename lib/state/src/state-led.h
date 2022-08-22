@@ -41,7 +41,7 @@ private:
     // Track which direction the LED is pulsing
     bool pulse_latch;
     // Track the remaining pulse fade time
-    uint8_t previous_remaining_fade_time;
+    uint32_t previous_remaining_fade_time;
 
     // Define State colors
     uint32_t COLOR_FAULT = COLOR_RED;

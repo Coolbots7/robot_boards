@@ -1,3 +1,5 @@
+#include <cmath>
+
 #include <Adafruit_NeoPixel.h>
 
 #include "./state-led.h"
@@ -70,20 +72,23 @@ void StateLED::update()
     if (this->pulse)
     {
         // Calculate the time to fade the led in one direction
-        uint32_t fade_direction_time = round((1000 * (1 / PULSE_RATE)) / 2);
+        uint32_t fade_time = round(1000 / PULSE_RATE);
+        uint32_t fade_direction_time = round(fade_time / 2);
 
         // Get the remainder of the current time divided by the fade time
-        uint32_t remaining_fade_time = millis() % fade_direction_time;
+        uint32_t now = millis();
+        uint32_t remaining_fade_direction_time = now % fade_direction_time;
 
         // If the remaining fade time has crossed 0 then flip the fade direction
-        if (remaining_fade_time < this->previous_remaining_fade_time)
+        uint8_t diff = floor(now / fade_direction_time) - this->previous_remaining_fade_time;
+        if ((diff % 2) == 1)
         {
             this->pulse_latch = !this->pulse_latch;
+            this->previous_remaining_fade_time = floor(now / fade_direction_time);
         }
-        this->previous_remaining_fade_time = remaining_fade_time;
 
         // Calculate and set the current brightness using the remaining fade time
-        uint8_t current_brightness_level = map(remaining_fade_time, 0, fade_direction_time, MIN_BRIGHTNESS, MAX_BRIGHTNESS);
+        uint8_t current_brightness_level = map(remaining_fade_direction_time, 0, fade_direction_time, MIN_BRIGHTNESS, MAX_BRIGHTNESS);
         if (this->pulse_latch == FADE_DOWN)
         {
             // Invert brightness when fading down
