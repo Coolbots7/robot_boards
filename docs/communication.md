@@ -17,6 +17,7 @@ protocols.
   - `boards/` - Library for communicating with boards
     - `common/` - Classes for common board interfaces
       - `state.h` - Class for interfacing with board State Machines
+    - `motor_controller/` - Class for communicating with Motor Controller boards
     - `status_light/` - Class for communicating with Status Light boards
     - `board.h` - Base class for common board communication functions
   - `communication/` - Library for implementing communication protocols
@@ -76,10 +77,11 @@ Each board can be assigned an address within the allotted address range for that
 type of board. Since addresses do not affect bus priority, as the master is in
 charge of data flow, all boards are treated the same.
 
-| Start Address (hex) | End Address (hex) | Range |    Usage     |
-| :-----------------: | :---------------: | :---: | :----------: |
-|        0x00         |       0x00        |   1   |  Main Board  |
-|        0x50         |       0x53        |   4   | Status Light |
+| Start Address (hex) | End Address (hex) | Range |      Usage       |
+| :-----------------: | :---------------: | :---: | :--------------: |
+|        0x00         |       0x00        |   1   |    Main Board    |
+|        0x40         |       0x4F        |  16   | Motor Controller |
+|        0x50         |       0x53        |   4   |   Status Light   |
 
 #### Registers
 

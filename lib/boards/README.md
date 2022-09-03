@@ -7,6 +7,8 @@ Library for communicating with Robot Boards from a controller device like the
 
 - `src/` - Directory for board source code files.
   - `common/` - Directory for common interfaces between boards.
+  - `motor_controller/` - Directory for library to interface with a Motor
+    Controller board.
   - `status_light/` - Directory for library to interface with a Status Light
     board.
 - `library.json` - The libraries manifest file.
