@@ -1,0 +1,20 @@
+{
+    "name": "RobotBoards_boards",
+    "version": "0.1.0",
+    "description": "Library to interface with boards",
+    "keywords": "arduino",
+    "repository": {
+        "type": "git",
+        "url": "git@github.com:Coolbots7/robot_boards.git"
+    },
+    "authors": [
+        {
+            "name": "coolbots7"
+        }
+    ],
+    "homepage": "https://github.com/Coolbots7/robot_boards",
+    "dependencies": {
+    },
+    "frameworks": "arduino",
+    "platforms": ["atmelavr", "espressif32"]
+}

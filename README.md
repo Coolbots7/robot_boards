@@ -6,6 +6,8 @@ This project is fully open source and suggestions and contributions are welcome.
 
 ## Structure
 
+- `docs/` - Directory for project documentation. See the
+  [README](./docs/README.md) for more.
 - `boards/` - Directory containing board designs and firmware.
   - `main_board/` - Board for running operational code and commanding other
     boards. See the [README](./boards/main_board/README.md) for more
@@ -16,6 +18,10 @@ This project is fully open source and suggestions and contributions are welcome.
   - `status_light/` - Board for indicating the operational state of the robot.
     See the [README](./boards/status_light/README.md) for more information.
 - `lib/` - Directory for custom libraries.
+  - `boards/` - Library for communicating with boards. See the
+    [README](./lib/boards/README.md) for more information.
+  - `communication/` - Library for implementing communication protocols. See the
+    [README](./lib/communication/README.md) for more information.
   - `display/` - Library for boards to display information on a OLED screen. See
     the [README](./lib/display/README.md) for more information.
   - `observability/` - Libraries for observing a board. See the

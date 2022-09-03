@@ -19,7 +19,38 @@
     "settings": {
         "files.associations": {
             "serstream": "cpp",
-            "cmath": "cpp"
+            "cmath": "cpp",
+            "memory": "cpp",
+            "ios": "cpp",
+            "array": "cpp",
+            "deque": "cpp",
+            "list": "cpp",
+            "string": "cpp",
+            "unordered_map": "cpp",
+            "unordered_set": "cpp",
+            "vector": "cpp",
+            "string_view": "cpp",
+            "initializer_list": "cpp",
+            "valarray": "cpp",
+            "associative_base": "cpp",
+            "iterator": "cpp",
+            "*.tcc": "cpp",
+            "ostream": "cpp",
+            "optional": "cpp",
+            "istream": "cpp",
+            "system_error": "cpp",
+            "functional": "cpp",
+            "tuple": "cpp",
+            "type_traits": "cpp",
+            "utility": "cpp",
+            "limits": "cpp",
+            "bitset": "cpp",
+            "sstream": "cpp",
+            "random": "cpp",
+            "algorithm": "cpp",
+            "map": "cpp",
+            "set": "cpp",
+            "queue": "cpp"
         }
     }
 }

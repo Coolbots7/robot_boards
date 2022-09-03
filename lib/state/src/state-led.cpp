@@ -37,7 +37,7 @@ void StateLED::show()
     this->leds->show();
 }
 
-void StateLED::update()
+void StateLED::update(int32_t offset)
 {
     // Set the LED color and effect based on the current state of the State Machine
     switch (this->state->getCurrentState())
@@ -73,7 +73,7 @@ void StateLED::update()
         uint32_t fade_time = 1000UL / PULSE_RATE;
 
         // Get the remaining fade time of the current cycle
-        uint32_t remaining_fade_time = millis() % fade_time;
+        uint32_t remaining_fade_time = (millis() + offset) % fade_time;
 
         // Get the position in the wave based on the remaining time
         float current_cycle_position = (((float)fade_time - (float)remaining_fade_time) / (float)fade_time) * (2.0 * M_PI);

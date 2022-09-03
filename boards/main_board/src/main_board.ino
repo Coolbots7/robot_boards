@@ -9,11 +9,13 @@
 #include "monitoring.h"
 #include "state-led.h"
 #include "state-machine.h"
+#include "status_light/status_light.h"
+#include "twowire/master.h"
 
 // ====== ABOUT ======
 #define BOARD_NAME "Main Board"
 #define HARDWARE_VERSION "0.1.0"
-#define FIRMWARE_VERSION "0.5.0"
+#define FIRMWARE_VERSION "0.6.0"
 
 // ====== DEBUG ======
 #define ENABLE_LOGGING true
@@ -53,6 +55,9 @@ Adafruit_SSD1306 *screen;
 // Display instance for the board
 Display *display;
 
+// I2CMaster instance to communicate with boards over TwoWire
+I2CMaster *i2c_master;
+
 // Logger instance for the board
 Logger *logger;
 
@@ -61,6 +66,9 @@ Monitoring *monitoring;
 
 // State LED instance for the board
 StateLED *state_led;
+
+// StatusLightInterface instance to interface with a Status Light board
+StatusLightInterface *status_light;
 
 // State Machine instance for the board
 StateMachine *state;
@@ -139,30 +147,35 @@ void setup()
 
     logger->info("Setup Beginning...");
 
+    logger->info("Initializing Monitoring...");
     // Create the Monitoring instance
     monitoring = new Monitoring();
+    logger->info("Monitoring initialized");
 
+    logger->info("Initializing the State Machine...");
     // Create state machine and initialize
     state = new StateMachine(stateUpdateHandler, logger);
+    logger->info("State Machine initialized");
 
     logger->info("Initializing the State LED...");
+    // Initialize the onboard State LED
     state_led = new StateLED(state);
     state_led->init<STATE_LED_PIN>(NUM_LEDS);
     logger->info("State LED initialized");
 
+    logger->info("Initializing Peripheral TwoWire bus...");
     // Initialize second Wire bus for onboard peripherals
-    logger->info("Initializing onboard peripheral Wire bus...");
     Wire1.begin(SOFTWARE_WIRE_SDA, SOFTWARE_WIRE_SCL, SOFTWARE_WIRE_FREQUENCY);
-    logger->info("Wire bus initialized");
+    logger->info("Peripheral TwoWire bus initialized");
 
-    // Create the SSD1306 screen instance
     logger->info("Initializing the Screen...");
+    // Create the SSD1306 screen instance
     screen = new Adafruit_SSD1306(DISPLAY_WIDTH, DISPLAY_HEIGHT, &Wire1);
 
     // Initialize the screen, halt if error
     if (!screen->begin(SSD1306_SWITCHCAPVCC, DISPLAY_ADDRESS))
     {
-        logger->warning("SSD1306 allocation failed");
+        logger->error("Screen initialization failed!");
         state->transitionTo(FAULT);
         state_led->update();
 
@@ -174,10 +187,22 @@ void setup()
     }
     logger->info("Screen initialized");
 
-    // Initialize the Display
     logger->info("Initializing the Display...");
+    // Initialize the Display
     display = new Display(screen, displayHandler);
     logger->info("Display initialized");
+
+    logger->info("Initializing TwoWire as master...");
+    display->initializing("I2C", 0.7f);
+    // Join TwoWire bus as master
+    i2c_master = new I2CMaster();
+    i2c_master->begin();
+    logger->info("TwoWire initialized");
+
+    logger->info("Initializing Status Light Board...");
+    // Initialize the Status Light board interface
+    status_light = new StatusLightInterface(0, i2c_master);
+    logger->info("Status Light Board initialized");
 
     // Transition to the IDLE state and complete setup
     state->transitionTo(IDLE);
@@ -200,6 +225,11 @@ void loop()
 
         // After updating all inputs, update the state machine
         state->update();
+
+        // Send the master state heartbeat to the Status Light board
+        status_light->state->setMasterState(state->getCurrentState());
+        // Send the master time heartbeat to the Status Light board
+        status_light->state->setMasterTime(millis());
 
         // Update the State LED with the latest state and effect
         state_led->update();

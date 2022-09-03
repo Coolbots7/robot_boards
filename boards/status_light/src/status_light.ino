@@ -5,10 +5,12 @@
 #include "state-led.h"
 #include "state-machine.h"
 
+#include "./i2c.h"
+
 // ====== ABOUT ======
 #define BOARD_NAME "Status Light"
 #define HARDWARE_VERSION "0.1.0"
-#define FIRMWARE_VERSION "0.4.0"
+#define FIRMWARE_VERSION "0.5.0"
 
 // ====== DEBUG ======
 #define ENABLE_LOGGING true
@@ -32,6 +34,9 @@ Logger *logger;
 // Monitoring instance for the board
 Monitoring *monitoring;
 
+// StatusLightI2CSlave instance for the board to be interacted with over TwoWire
+StatusLightI2CSlave *status_light_i2c_slave;
+
 // State LED instance for the board
 StateLED *state_led;
 
@@ -51,6 +56,36 @@ const uint32_t LOOP_TIME = round(1000 / RATE);
  */
 void stateUpdateHandler(StateMachine *s)
 {
+  // Get the most recent Master state
+  State master_state = status_light_i2c_slave->getMasterState();
+
+  if (master_state != State::NONE)
+  {
+    // Status Board state mirrors the Master state
+    s->transitionTo(master_state);
+  }
+  else
+  {
+    s->transitionTo(State::IDLE);
+  }
+}
+
+/**
+ * @brief TwoWire handler for on receive events
+ *
+ * @param num_bytes Number of bytes received
+ */
+void onReceive(int num_bytes)
+{
+  status_light_i2c_slave->onReceive(num_bytes);
+}
+
+/**
+ * @brief TwoWire handler for on request events
+ */
+void onRequest()
+{
+  status_light_i2c_slave->onRequest();
 }
 
 /**
@@ -80,9 +115,16 @@ void setup()
   logger->info("State Machine initialized");
 
   logger->info("Initializing the State LED...");
+  // Initialize the onboard State LED
   state_led = new StateLED(state);
   state_led->init<STATE_LED_PIN>(NUM_LEDS);
   logger->info("State LED initialized");
+
+  logger->info("Initializing TwoWire...");
+  // Initialize TwoWire communication
+  status_light_i2c_slave = new StatusLightI2CSlave(0, state);
+  status_light_i2c_slave->begin(onReceive, onRequest);
+  logger->info("TwoWire initialized");
 
   // Transition to the IDLE state and complete setup
   state->transitionTo(IDLE);
@@ -105,8 +147,10 @@ void loop()
     // After updating all inputs, update the state machine
     state->update();
 
+    // Use most recent master time offset to keep pulsing smooth between heartbeat messages
+    int32_t master_offset = status_light_i2c_slave->getMasterOffset();
     // Update the State LED with the latest state and effect
-    state_led->update();
+    state_led->update(master_offset);
 
     // Update the monitoring instance at the end of the main code execution
     monitoring->end();

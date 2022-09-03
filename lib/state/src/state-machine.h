@@ -3,7 +3,7 @@
 
 #include "Arduino.h"
 
-#include "./logger.h"
+#include "logger.h"
 
 // States of the State Machine
 enum State
