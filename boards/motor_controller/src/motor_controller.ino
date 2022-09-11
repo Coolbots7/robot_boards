@@ -5,6 +5,7 @@
 #include "state-led.h"
 #include "state-machine.h"
 
+#include "./dc_motor.h"
 #include "./i2c.h"
 
 // ====== ABOUT ======
@@ -27,7 +28,24 @@
 // Hardware pin the addressable LEDs are attached to
 #define STATE_LED_PIN 10
 
+// ====== Motor Definitions ======
+#define MOTOR_1_ENABLE_PIN 5
+#define MOTOR_1_A_PIN 4
+#define MOTOR_1_B_PIN 7
+#define MOTOR_1_PWM_PIN 5
+
+#define MOTOR_2_ENABLE_PIN 6
+#define MOTOR_2_A_PIN 8
+#define MOTOR_2_B_PIN 9
+#define MOTOR_2_PWM_PIN 6
+
 // ====== GLOBALS ======
+// DC Motor instance for motor 1
+DCMotor *motor_1;
+
+// DC Motor instance for motor 2
+DCMotor *motor_2;
+
 // Logger instance for the board
 Logger *logger;
 
@@ -125,9 +143,15 @@ void setup()
     state_led->init<STATE_LED_PIN>(NUM_LEDS);
     logger->info("State LED initialized");
 
+    logger->info("Initializing Motors...");
+    // Create DC Motor controllers
+    motor_1 = new DCMotor(MOTOR_1_A_PIN, MOTOR_1_B_PIN, MOTOR_1_PWM_PIN, MOTOR_1_ENABLE_PIN);
+    motor_2 = new DCMotor(MOTOR_2_A_PIN, MOTOR_2_B_PIN, MOTOR_2_PWM_PIN, MOTOR_2_ENABLE_PIN);
+    logger->info("Motors initialized");
+
     logger->info("Initializing TwoWire...");
     // Initialize TwoWire communication
-    motor_controller_i2c_slave = new MotorControllerI2CSlave(0x00, state);
+    motor_controller_i2c_slave = new MotorControllerI2CSlave(0x00, state, motor_1, motor_2);
     motor_controller_i2c_slave->begin(onReceive, onRequest);
     logger->info("TwoWire initialized");
 
@@ -151,6 +175,23 @@ void loop()
 
         // After updating all inputs, update the state machine
         state->update();
+
+        // Enable motors if RUNNING
+        if (state->getCurrentState() == State::RUNNING)
+        {
+            motor_1->setEnabled();
+            motor_2->setEnabled();
+        }
+        // Otherwise, disable motors
+        else
+        {
+            motor_1->setDisabled();
+            motor_2->setDisabled();
+        }
+
+        // Update outputs to the motor driver
+        motor_1->writeSpeed();
+        motor_2->writeSpeed();
 
         // Update the State LED with the latest state and effect
         int32_t master_offset = motor_controller_i2c_slave->getMasterOffset();

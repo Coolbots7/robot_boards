@@ -44,12 +44,12 @@ public:
      *
      * @param num_bytes Number of bytes received
      */
-    virtual void onReceive(int num_bytes);
+    virtual void onReceive(int num_bytes) = 0;
 
     /**
      * @brief Handle TwoWire on request events for the board
      */
-    virtual void onRequest();
+    virtual void onRequest() = 0;
 
     /**
      * @brief Get the Master State register value

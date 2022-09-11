@@ -58,8 +58,16 @@
 #define SBUS_TX_PIN 17
 
 // ====== JOY CHANNEL MAPPINGS ======
+// Controller analog joystick dead zone
+#define CONTROLLER_DEAD_ZONE 0.1f
+// SBUS controller channel for forward / reverse speed
+#define LINEAR_X_CHANNEL 2
+// SBUS controller channel for left / right speed
+#define ANGULAR_Z_CHANNEL 1
 // SBUS controller channel for arm command
 #define ARM_CHANNEL 7
+// SBUS controller channel for max speed control
+#define THROTTLE_SCALER_CHANNEL 11
 
 // ====== GLOBALS ======
 // SSD1306 display instance for the onboard display
@@ -256,6 +264,11 @@ void setup()
     logger->info("Initializing Motor Controller Board...");
     // Initialize the Motor Controller interface
     motor_controller_interface = new MotorControllerInterface(0, i2c_master);
+    // Reverse the motor 2 direction
+    motor_controller_interface->motor_2->setReversed();
+    // Set the motors to coast mode
+    motor_controller_interface->motor_1->setCoast();
+    motor_controller_interface->motor_2->setCoast();
     logger->info("Motor Controller Board initialized");
 
     // Initialize SBUS communication
@@ -290,6 +303,33 @@ void loop()
         if (read_success && !data.failsafe)
         {
             logger->info("Read SBUS data");
+
+            // Calculate command velocity from joystick inputs
+
+            // Get linear X command from SBUS data
+            float linear_x = data.channels[LINEAR_X_CHANNEL - 1];
+            if (abs(linear_x) < CONTROLLER_DEAD_ZONE)
+            {
+                linear_x = 0.0f;
+            }
+
+            // Get angular Y command from SBUS data
+            float angular_z = data.channels[ANGULAR_Z_CHANNEL - 1];
+            if (abs(angular_z) < CONTROLLER_DEAD_ZONE)
+            {
+                angular_z = 0.0f;
+            }
+
+            // Get throttle scaler command from SBUS data and shift from -1 - 1 to 0 - 1
+            float throttle_scaler = (data.channels[THROTTLE_SCALER_CHANNEL - 1] + 1.0f) / 2.0f;
+
+            // Calculate tank drive motor speeds using command velocity values
+            float left_speed = (linear_x + angular_z) * throttle_scaler;
+            float right_speed = (linear_x - angular_z) * throttle_scaler;
+
+            // Send motor speeds to motor controller
+            motor_controller_interface->motor_1->setSpeed(left_speed);
+            motor_controller_interface->motor_2->setSpeed(right_speed);
         }
         else if (!read_success)
         {
@@ -298,6 +338,10 @@ void loop()
         else if (data.failsafe)
         {
             logger->warning("SBUS failsafed");
+        }
+        else
+        {
+            logger->warning("SBUS read failed for unknown reason");
         }
 
         // After updating all inputs, update the state machine
