@@ -7,6 +7,7 @@
 #include "display.h"
 #include "logger.h"
 #include "monitoring.h"
+#include "motor_controller/motor_controller.h"
 #include "state-led.h"
 #include "state-machine.h"
 #include "status_light/status_light.h"
@@ -15,7 +16,7 @@
 // ====== ABOUT ======
 #define BOARD_NAME "Main Board"
 #define HARDWARE_VERSION "0.1.0"
-#define FIRMWARE_VERSION "0.6.0"
+#define FIRMWARE_VERSION "0.7.0"
 
 // ====== DEBUG ======
 #define ENABLE_LOGGING true
@@ -64,6 +65,9 @@ Logger *logger;
 // Monitoring instance for the board
 Monitoring *monitoring;
 
+// MotorControllerInterface instance to interface with a Motor Controller board
+MotorControllerInterface *motor_controller_interface;
+
 // State LED instance for the board
 StateLED *state_led;
 
@@ -86,7 +90,17 @@ const uint32_t LOOP_TIME = round(1000 / RATE);
  */
 void stateUpdateHandler(StateMachine *s)
 {
-    s->transitionTo(State::RUNNING);
+    // Get Motor Controller board state
+    State motor_controller_state = motor_controller_interface->state->getBoardState();
+
+    if (motor_controller_state == State::HALT || motor_controller_state == State::FAULT)
+    {
+        s->transitionTo(State::HALT);
+    }
+    else
+    {
+        s->transitionTo(State::RUNNING);
+    }
 }
 
 /**
@@ -204,6 +218,11 @@ void setup()
     status_light = new StatusLightInterface(0, i2c_master);
     logger->info("Status Light Board initialized");
 
+    logger->info("Initializing Motor Controller Board...");
+    // Initialize the Motor Controller interface
+    motor_controller_interface = new MotorControllerInterface(0, i2c_master);
+    logger->info("Motor Controller Board initialized");
+
     // Transition to the IDLE state and complete setup
     state->transitionTo(IDLE);
     display->initializing("Complete", 1.0f);
@@ -230,6 +249,11 @@ void loop()
         status_light->state->setMasterState(state->getCurrentState());
         // Send the master time heartbeat to the Status Light board
         status_light->state->setMasterTime(millis());
+
+        // Send the master state heartbeat to the Motor Controller board
+        motor_controller_interface->state->setMasterState(state->getCurrentState());
+        // Send the master time heartbeat to the Motor Controller board
+        motor_controller_interface->state->setMasterTime(millis());
 
         // Update the State LED with the latest state and effect
         state_led->update();

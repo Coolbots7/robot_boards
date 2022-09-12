@@ -5,6 +5,8 @@
 
 #include <Wire.h>
 
+#include "./common.h"
+
 /**
  * @brief Utility for boards to communicate over I2C
  */
