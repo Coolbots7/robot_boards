@@ -1,4 +1,5 @@
-#include "./logger.h"
+#include "logger.h"
+
 #include "./state-machine.h"
 
 StateMachine::StateMachine(void (*state_update_handler)(StateMachine *), Logger *logger)

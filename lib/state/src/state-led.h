@@ -95,8 +95,10 @@ public:
 
     /**
      * @brief Update the LED with the latest state and effect
+     *
+     * @param offset Time offset in ms to sync with the controller
      */
-    void update();
+    void update(int32_t offset = 0);
 };
 
 template <uint8_t PIN>
