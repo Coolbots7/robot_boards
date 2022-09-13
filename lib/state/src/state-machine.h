@@ -8,10 +8,10 @@
 // States of the State Machine
 enum State
 {
-    NONE = -1,
-    STARTING = 0x00,
-    IDLE = 0x01,
-    RUNNING = 0x02,
+    NONE = 0x00,
+    STARTING = 0x01,
+    IDLE = 0x02,
+    RUNNING = 0x03,
     HALT = 0x04,
     FAULT = 0xFF
 };
@@ -33,7 +33,7 @@ private:
     // The previous state of the State Machine
     State previous_state;
 
-    // The current state of the state machine
+    // The current state of the State Machine
     State current_state;
 
 public:
