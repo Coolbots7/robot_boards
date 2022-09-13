@@ -59,14 +59,17 @@ void stateUpdateHandler(StateMachine *s)
     // get the most recent Master state
     State master_state = motor_controller_i2c_slave->getMasterState();
 
+    // If master state is HALT or FAULT set board state to HALT
     if (master_state == State::HALT || master_state == State::FAULT)
     {
         s->transitionTo(State::HALT);
     }
+    // Transition to RUNNING if master RUNNING
     else if (master_state == State::RUNNING)
     {
         s->transitionTo(State::RUNNING);
     }
+    // Default transition to IDLE
     else
     {
         s->transitionTo(State::IDLE);

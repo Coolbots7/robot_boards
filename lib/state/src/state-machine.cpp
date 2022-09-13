@@ -11,8 +11,8 @@ StateMachine::StateMachine(void (*state_update_handler)(StateMachine *), Logger 
     this->state_update_handler = state_update_handler;
 
     // Initialize state
-    this->previous_state = NONE;
-    this->current_state = STARTING;
+    this->previous_state = State::NONE;
+    this->current_state = State::STARTING;
 
     this->logger->info("State machine initialized with state '" + StateMachine::getStateDescription(this->current_state) + "'");
 }
@@ -31,16 +31,16 @@ State StateMachine::transitionTo(State desired_state)
         return this->current_state;
     }
 
-    State next_state = NONE;
+    State next_state = State::NONE;
 
     // STARTING => IDLE
     // STARTING => FAULT
-    if (this->current_state == STARTING)
+    if (this->current_state == State::STARTING)
     {
         switch (desired_state)
         {
-        case IDLE:
-        case FAULT:
+        case State::IDLE:
+        case State::FAULT:
             next_state = desired_state;
             break;
         default:
@@ -50,13 +50,13 @@ State StateMachine::transitionTo(State desired_state)
     // IDLE => RUNNING
     // IDLE => HALT
     // IDLE => FAULT
-    else if (this->current_state == IDLE)
+    else if (this->current_state == State::IDLE)
     {
         switch (desired_state)
         {
-        case RUNNING:
-        case HALT:
-        case FAULT:
+        case State::RUNNING:
+        case State::HALT:
+        case State::FAULT:
             next_state = desired_state;
             break;
         default:
@@ -66,13 +66,13 @@ State StateMachine::transitionTo(State desired_state)
     // RUNNING => IDLE
     // RUNNING => HALT
     // RUNNING => FAULT
-    else if (this->current_state == RUNNING)
+    else if (this->current_state == State::RUNNING)
     {
         switch (desired_state)
         {
-        case IDLE:
-        case HALT:
-        case FAULT:
+        case State::IDLE:
+        case State::HALT:
+        case State::FAULT:
             next_state = desired_state;
             break;
         default:
@@ -82,13 +82,13 @@ State StateMachine::transitionTo(State desired_state)
     // HALT => IDLE
     // HALT => RUNNING
     // HALT => FAULT
-    else if (this->current_state == HALT)
+    else if (this->current_state == State::HALT)
     {
         switch (desired_state)
         {
-        case IDLE:
-        case RUNNING:
-        case FAULT:
+        case State::IDLE:
+        case State::RUNNING:
+        case State::FAULT:
             next_state = desired_state;
             break;
         default:
@@ -96,11 +96,11 @@ State StateMachine::transitionTo(State desired_state)
         }
     }
     // FAULT => STARTING
-    else if (this->current_state == FAULT)
+    else if (this->current_state == State::FAULT)
     {
         switch (desired_state)
         {
-        case STARTING:
+        case State::STARTING:
             next_state = desired_state;
             break;
         default:
@@ -109,7 +109,7 @@ State StateMachine::transitionTo(State desired_state)
     }
 
     // If the transition was valid, perform the transition
-    if (next_state > NONE)
+    if (next_state != State::NONE)
     {
         this->previous_state = this->current_state;
         this->current_state = next_state;
@@ -118,7 +118,9 @@ State StateMachine::transitionTo(State desired_state)
     else
     {
         // Log if the transition was not valid
-        this->logger->warning("Failed to transition state from " + StateMachine::getStateDescription(this->current_state) + " to " + StateMachine::getStateDescription(desired_state));
+        this->logger->error("Failed to transition state from " + StateMachine::getStateDescription(this->current_state) + " to " + StateMachine::getStateDescription(desired_state));
+        // Transition to fault state
+        return this->transitionTo(State::FAULT);
     }
 
     return this->current_state;
@@ -138,19 +140,19 @@ String StateMachine::getStateDescription(State state)
 {
     switch (state)
     {
-    case NONE:
+    case State::NONE:
         return "NONE";
-    case STARTING:
+    case State::STARTING:
         return "Starting";
-    case IDLE:
+    case State::IDLE:
         return "Idle";
-    case RUNNING:
+    case State::RUNNING:
         return "Running";
-    case HALT:
+    case State::HALT:
         return "Halt";
-    case FAULT:
+    case State::FAULT:
         return "Fault";
     default:
-        return "Unknown State";
+        return "Unknown";
     };
 }

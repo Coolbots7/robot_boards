@@ -13,10 +13,12 @@
 #include "status_light/status_light.h"
 #include "twowire/master.h"
 
+#include "./sbus_receiver.h"
+
 // ====== ABOUT ======
 #define BOARD_NAME "Main Board"
 #define HARDWARE_VERSION "0.1.0"
-#define FIRMWARE_VERSION "0.7.0"
+#define FIRMWARE_VERSION "0.8.0"
 
 // ====== DEBUG ======
 #define ENABLE_LOGGING true
@@ -49,6 +51,16 @@
 // OLED display height, in pixels
 #define DISPLAY_HEIGHT 32
 
+// ====== SBUS ======
+// RF transceiver SBUS receive pin
+#define SBUS_RX_PIN 16
+// RF transceiver SBUS transmit pin
+#define SBUS_TX_PIN 17
+
+// ====== JOY CHANNEL MAPPINGS ======
+// SBUS controller channel for arm command
+#define ARM_CHANNEL 7
+
 // ====== GLOBALS ======
 // SSD1306 display instance for the onboard display
 Adafruit_SSD1306 *screen;
@@ -67,6 +79,9 @@ Monitoring *monitoring;
 
 // MotorControllerInterface instance to interface with a Motor Controller board
 MotorControllerInterface *motor_controller_interface;
+
+// SBUS receiver instance for the board
+SbusReceiver *sbus_receiver;
 
 // State LED instance for the board
 StateLED *state_led;
@@ -93,9 +108,23 @@ void stateUpdateHandler(StateMachine *s)
     // Get Motor Controller board state
     State motor_controller_state = motor_controller_interface->state->getBoardState();
 
-    if (motor_controller_state == State::HALT || motor_controller_state == State::FAULT)
+    // Get SBUS data
+    SbusData data = sbus_receiver->getData();
+
+    // Halt if a board has faulted
+    if (motor_controller_state == State::FAULT)
     {
         s->transitionTo(State::HALT);
+    }
+    // Halt if SBUS has failsafed
+    else if (data.failsafe)
+    {
+        s->transitionTo(State::HALT);
+    }
+    // Idle if disarmed
+    else if (data.channels[ARM_CHANNEL - 1] < 0.0f)
+    {
+        s->transitionTo(State::IDLE);
     }
     else
     {
@@ -128,6 +157,12 @@ void displayHandler(Display *display)
     char cycle_time_buffer[14];
     sprintf(cycle_time_buffer, "C:%.0fms(%.0fhz)", monitoring->getAverageCycleTime(), monitoring->getAverageCycleRate());
     display->rightJustify(display->getLineY(2), String(cycle_time_buffer));
+
+    // Show SBUS Received Signal Strength Indicator (RSSI) and Failsafe flag
+    display->leftJustify(display->getLineY(1), "SS:" + String(sbus_receiver->getRSSI()) + " FS:" + String(sbus_receiver->getFailsafe()));
+
+    // Show SBUS Lost Frames
+    display->leftJustify(display->getLineY(2), "LF:" + String(sbus_receiver->getLostFrames()));
 
     // Push buffer to display
     display->display();
@@ -190,7 +225,7 @@ void setup()
     if (!screen->begin(SSD1306_SWITCHCAPVCC, DISPLAY_ADDRESS))
     {
         logger->error("Screen initialization failed!");
-        state->transitionTo(FAULT);
+        state->transitionTo(State::FAULT);
         state_led->update();
 
         // Don't proceed, loop forever
@@ -223,8 +258,15 @@ void setup()
     motor_controller_interface = new MotorControllerInterface(0, i2c_master);
     logger->info("Motor Controller Board initialized");
 
+    // Initialize SBUS communication
+    logger->info("Initializing SBUS receiver...");
+    display->initializing("SBUS", 0.9f);
+    sbus_receiver = new SbusReceiver();
+    sbus_receiver->begin(&Serial2, SBUS_RX_PIN, SBUS_TX_PIN);
+    logger->info("SBUS receiver initialized");
+
     // Transition to the IDLE state and complete setup
-    state->transitionTo(IDLE);
+    state->transitionTo(State::IDLE);
     display->initializing("Complete", 1.0f);
     logger->info("Setup Complete!");
 }
@@ -241,6 +283,22 @@ void loop()
 
         // Update the monitoring instance at the start of the main code execution
         monitoring->start();
+
+        // Read latest SBUS data
+        SbusData data;
+        bool read_success = sbus_receiver->read(data);
+        if (read_success && !data.failsafe)
+        {
+            logger->info("Read SBUS data");
+        }
+        else if (!read_success)
+        {
+            logger->warning("SBUS read failed");
+        }
+        else if (data.failsafe)
+        {
+            logger->warning("SBUS failsafed");
+        }
 
         // After updating all inputs, update the state machine
         state->update();

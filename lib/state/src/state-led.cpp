@@ -42,23 +42,23 @@ void StateLED::update(int32_t offset)
     // Set the LED color and effect based on the current state of the State Machine
     switch (this->state->getCurrentState())
     {
-    case STARTING:
+    case State::STARTING:
         this->pulse = false;
         setColor(COLOR_STARTING);
         break;
-    case HALT:
+    case State::HALT:
         this->pulse = true;
         setColor(COLOR_HALT);
         break;
-    case IDLE:
+    case State::IDLE:
         this->pulse = false;
         setColor(COLOR_IDLE);
         break;
-    case RUNNING:
+    case State::RUNNING:
         this->pulse = true;
         setColor(COLOR_RUNNING);
         break;
-    case FAULT:
+    case State::FAULT:
         this->pulse = true;
         setColor(COLOR_FAULT);
         break;
