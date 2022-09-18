@@ -9,6 +9,8 @@ Driver to drive a motor.
 
 ## Structure
 
+- `docs/` - Directory for board documentation.
+  - `post-mortems.md` - [File](./docs/post-mortems.md) to document observations of previous revisions.
 - `images/` - Directory for board images.
 - `src/` - Directory for board source code files.
 - `platformio.ini` - PlatformIO configuration file for the project.
