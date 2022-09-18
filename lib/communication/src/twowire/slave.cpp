@@ -42,6 +42,11 @@ uint8_t I2CSlave::getRequestRegister()
     return this->request_register;
 }
 
+void I2CSlave::setRequestRegister(uint8_t request_register)
+{
+    this->request_register = request_register;
+}
+
 uint8_t I2CSlave::getAvailable()
 {
     return this->twi->available();

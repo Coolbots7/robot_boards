@@ -5,7 +5,7 @@
 
 #include "./i2c.h"
 
-void I2CDevice::onReceive(int num_bytes)
+void StatusLightI2CSlave::onReceive(int num_bytes)
 {
     // Make sure at least one full message is available
     if (this->i2c_slave->getAvailable() >= sizeof(WireMessage))
@@ -22,13 +22,16 @@ void I2CDevice::onReceive(int num_bytes)
             this->master_time = I2CCore::decodeValue<uint32_t>(message.data);
             this->master_offset = this->master_time - millis();
             break;
+        case Registers::REGISTER_REQUEST_TYPE:
+            this->i2c_slave->setRequestRegister(I2CCore::decodeValue<uint8_t>(message.data));
+            break;
         default:
             break;
         };
     }
 }
 
-void I2CDevice::onRequest()
+void StatusLightI2CSlave::onRequest()
 {
     switch (this->i2c_slave->getRequestRegister())
     {

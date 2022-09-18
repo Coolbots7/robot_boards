@@ -63,6 +63,13 @@ public:
     uint8_t getRequestRegister();
 
     /**
+     * @brief Set the current request register
+     *
+     * @param request_register Request register value
+     */
+    void setRequestRegister(uint8_t request_register);
+
+    /**
      * @brief Get the number of available bytes
      *
      * @return uint8_t The number of bytes available to read in the TwoWire buffer

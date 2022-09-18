@@ -6,7 +6,9 @@
 #include "twowire/device.h"
 
 /**
- * @brief Helper for the Status Light board to be communicated with over the TwoWire protocol
+ * Status Light I2C Slave
+ *
+ * Helper for the Status Light board to be communicated with over the TwoWire protocol
  */
 class StatusLightI2CSlave : public I2CDevice
 {
@@ -18,6 +20,18 @@ public:
      * @param state Instance of the State Machine for the board
      */
     StatusLightI2CSlave(uint8_t address_offset, StateMachine *state) : I2CDevice(I2C_STATUS_LIGHT_BASE_ADDRESS + address_offset, state) {}
+
+    /**
+     * @brief Function to process TwoWire on receive events for the Status Light board
+     *
+     * @param num_bytes Number of bytes received
+     */
+    void onReceive(int num_bytes);
+
+    /**
+     * @brief Function to process TwoWire on request events for the Status Light board
+     */
+    void onRequest();
 };
 
 #endif
